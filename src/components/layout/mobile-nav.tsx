@@ -81,7 +81,8 @@ export function MobileNav({
                 {panel.label}
               </span>
               <p className="pb-2 text-xs leading-relaxed text-faint">
-                These offers are separate from Jarvis CRM.
+                Premium includes four AI agents. Other offers are available
+                separately.
               </p>
               <Accordion type="single" collapsible className="flex flex-col">
                 {panel.groups.map((pillar) =>

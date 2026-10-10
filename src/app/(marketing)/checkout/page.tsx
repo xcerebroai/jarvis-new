@@ -118,8 +118,9 @@ export default function ChoosePlanPage() {
 
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <p className="max-w-[65ch] text-sm leading-relaxed text-muted">
-              Plans are billed monthly. Private onboarding, xCerebro AI Agents,
-              Lead Scraper, and Custom Builds are available separately.
+              Plans are billed monthly. Premium includes four AI agents. Private
+              onboarding, standalone or additional xCerebro deployments, Lead
+              Scraper, and Custom Builds are available separately.
             </p>
             <Link
               href="/pricing#compare"

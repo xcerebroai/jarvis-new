@@ -8,11 +8,7 @@ import { Fragment } from "react";
 import { buttonVariants } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Section, SectionHeader } from "@/components/ui/section";
-import {
-  pricingGroups,
-  pricingPlans,
-  type PlanCell,
-} from "@/content/pricing";
+import { pricingGroups, pricingPlans, type PlanCell } from "@/content/pricing";
 import { offers } from "@/content/products";
 import { cn } from "@/lib/cn";
 
@@ -61,7 +57,7 @@ export function PricingComparison() {
         <SectionHeader
           eyebrow="Jarvis CRM plans"
           title="What each plan carries"
-          description="These are Jarvis CRM subscription plans. xCerebro AI Agents, Lead Scraper, and Custom Builds are separate offers, priced on their own."
+          description="Premium includes four AI agents. Standalone or additional xCerebro AI Agents deployments, Lead Scraper, and Custom Builds are available separately."
         />
 
         <div className="overflow-x-auto rounded-lg border border-line">
@@ -188,15 +184,19 @@ export function PricingComparison() {
           </table>
         </div>
 
-        {/* The table only prices the CRM. Saying so beside it is the
-            difference between a plan and an implied bundle. */}
+        {/* These standalone offers can be purchased beyond the CRM plan. */}
         <div className="flex flex-col gap-4">
-          <span className="type-label-wide text-faint">Priced separately</span>
+          <span className="type-label-wide text-faint">
+            Standalone and additional options
+          </span>
           <div className="grid gap-px overflow-hidden rounded-lg border border-line bg-line md:grid-cols-3">
             {offers
               .filter((offer) => offer.id !== "crm")
               .map((offer) => (
-                <div key={offer.id} className="flex flex-col gap-1.5 bg-ink-950 p-5">
+                <div
+                  key={offer.id}
+                  className="flex flex-col gap-1.5 bg-ink-950 p-5"
+                >
                   <span className="font-display text-sm font-medium text-paper">
                     {offer.name}
                   </span>

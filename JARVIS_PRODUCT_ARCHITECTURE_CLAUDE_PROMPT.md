@@ -1,6 +1,8 @@
 # JARVIS WEBSITE — PRODUCT CLARITY + HOMEPAGE RESTRUCTURE PROMPT
 
-> **Build My System:** General and CRM buttons open `/checkout`, where visitors choose Standard, Elite, or Premium and continue directly to that plan's configured payment link. Use `site.cta.primary` for these CTAs. On the Custom Builds page, use `site.cta.customBuild` for the header, navigation menus, and section CTA to open `/custom-build-request`. The Custom CRM bundle on pricing also opens that form. Plan prices and inclusions stay unchanged.
+> **Premium AI agents — October 9, 2026:** The owner now includes four AI agents in the Jarvis CRM Premium plan. Show the inclusion in Premium pricing and checkout details. The supplied operating manual is a client-specific example of four real estate roles; do not publish its client data, phone numbers, internal rules, or approval thresholds. Standalone or additional xCerebro deployments, Lead Scraper, and Custom Builds remain separate offers. This direction supersedes older blanket statements below that all agents are separate from CRM plans.
+
+> **Build My System:** General and CRM buttons open `/checkout`, where visitors choose Standard, Elite, or Premium and continue directly to that plan's configured payment link. Use `site.cta.primary` for these CTAs. On the Custom Builds page, use `site.cta.customBuild` for the header, navigation menus, and section CTA to open `/custom-build-request`. The Custom CRM bundle on pricing also opens that form. Plan prices remain unchanged; Premium includes four AI agents.
 
 > **Legacy build links:** `/build` must render the same plan choices and payment links as `/checkout`, including in the GitHub Pages static export. The custom-build intake lives at `/custom-build-request`. It asks for first name, last name, email, phone, business or industry, preferred date and time, and city or time zone, with optional business name, other availability, and project notes. A request does not reserve an appointment. Submission delivery is not connected yet; do not show a success confirmation or log personal details until requests are saved through a real hosted form or backend. See `docs/custom-build-intake.md`.
 
@@ -25,11 +27,13 @@ You are working inside the existing `jarvis-new` Next.js project.
 IMPORTANT: This is an iteration on the CURRENT build, not a rebuild.
 
 ## PRIMARY GOAL
+
 The current site looks good visually, but the product architecture is too blended. Visitors must immediately understand that we offer different products/services that can work independently or together.
 
 Do NOT name everything "Jarvis."
 
 The commercial structure is:
+
 1. **Jarvis CRM** — the CRM/platform
 2. **xCerebro AI Agents** — the AI workforce product
 3. **Lead Scraper** — the lead/data scraping product
@@ -42,23 +46,28 @@ The user should understand the difference between these four within 10 seconds.
 ## NON-NEGOTIABLE NAMING
 
 ### Jarvis CRM
+
 The core CRM and revenue workflow platform.
 
 ### xCerebro AI Agents
+
 The AI workforce product.
 Do NOT rename this Jarvis AI Staff, Jarvis Agents, or Jarvis Workforce.
 Use "xCerebro AI Agents" or "xCerebro AI Workforce."
 
 ### Lead Scraper
+
 The lead-generation/data product.
 Do NOT use "Jarvis Lead Engines" as the primary product name.
 You may use "lead engine" descriptively inside product copy, but the product heading must be "Lead Scraper."
 
 ### Custom Builds
+
 The service offering.
 Do NOT call this "Jarvis Custom" in primary customer-facing copy.
 
 ## POSITIONING
+
 Jarvis remains the umbrella brand and can still use:
 **AI Revenue Operating System**
 and:
@@ -68,9 +77,11 @@ Core idea:
 **Use one. Or connect the entire system.**
 
 ## HOMEPAGE STRUCTURE
+
 Do not remove the existing hero unless necessary.
 
 Restructure the homepage to follow this order:
+
 1. Navigation
 2. Hero
 3. Products & Services
@@ -89,6 +100,7 @@ Restructure the homepage to follow this order:
 Do NOT duplicate sections that already exist. Reuse/refactor current components where possible.
 
 ## HERO
+
 Keep the futuristic premium direction.
 
 Eyebrow:
@@ -110,6 +122,7 @@ The hero must make the product separation clearer than the current version.
 Do not turn the hero into a four-card grid. Keep it visually cinematic and premium.
 
 ## PRODUCTS & SERVICES SECTION
+
 Place this immediately after the hero.
 
 Eyebrow:
@@ -124,11 +137,13 @@ Supporting copy:
 Create four distinct premium product cards.
 
 ### CARD 1 — JARVIS CRM
+
 Title: **Jarvis CRM**
 Tagline: **Run the business.**
 Copy:
 **Manage leads, conversations, pipelines, follow-up, appointments, workflows, reporting, websites, forms, and sales activity from one operating hub.**
 Capabilities:
+
 - CRM & contacts
 - Custom pipelines
 - SMS, email & calling
@@ -136,17 +151,19 @@ Capabilities:
 - Calendars & appointments
 - Forms & funnels
 - Reporting & dashboards
-CTA:
-**Explore Jarvis CRM**
-Visual:
-Show a real software/dashboard/pipeline visual.
+  CTA:
+  **Explore Jarvis CRM**
+  Visual:
+  Show a real software/dashboard/pipeline visual.
 
 ### CARD 2 — XCEREBRO AI AGENTS
+
 Title: **xCerebro AI Agents**
 Tagline: **Put AI on the work.**
 Copy:
 **Deploy role-based AI agents for sales, follow-up, operations, marketing, support, research, and custom business responsibilities.**
 Capabilities:
+
 - Lead management
 - Follow-up
 - Appointment setting
@@ -154,18 +171,20 @@ Capabilities:
 - Operations
 - Marketing
 - Custom AI roles
-CTA:
-**Meet the AI Agents**
-Visual:
-Use professional AI role/status cards, activity feeds, permissions, approvals, and agent states.
-Do not use robots or human-like AI portraits.
+  CTA:
+  **Meet the AI Agents**
+  Visual:
+  Use professional AI role/status cards, activity feeds, permissions, approvals, and agent states.
+  Do not use robots or human-like AI portraits.
 
 ### CARD 3 — LEAD SCRAPER
+
 Title: **Lead Scraper**
 Tagline: **Find the opportunities.**
 Copy:
 **Turn county records, public data, and custom sources into clean, organized leads that can be enriched, scored, and routed into your sales process.**
 Capabilities:
+
 - County/public records
 - Foreclosure
 - Pre-foreclosure
@@ -178,10 +197,10 @@ Capabilities:
 - Enrichment
 - Lead scoring
 - CRM routing
-CTA:
-**Explore Lead Scraper**
-Visual:
-This must look like a real independent product, not a small feature.
+  CTA:
+  **Explore Lead Scraper**
+  Visual:
+  This must look like a real independent product, not a small feature.
 
 Create a strong scraper UI visual showing demo data such as:
 SOURCE: Richland County Public Records
@@ -202,11 +221,13 @@ Use a premium data-console/dashboard style.
 Use motion to show records moving through stages, but keep it subtle and SSR-safe.
 
 ### CARD 4 — CUSTOM BUILDS
+
 Title: **Custom Builds**
 Tagline: **We build the system around you.**
 Copy:
 **For businesses with non-standard workflows, we map the process and build the pipelines, automations, integrations, agents, dashboards, and data flows around how the company actually operates.**
 Capabilities:
+
 - Custom CRM pipelines
 - Multi-pipeline systems
 - Workflow automation
@@ -215,12 +236,13 @@ Capabilities:
 - Custom lead systems
 - Dashboards
 - Data flows
-CTA:
-**Build My System**
-Visual:
-Show a workflow/system map, not another generic card.
+  CTA:
+  **Build My System**
+  Visual:
+  Show a workflow/system map, not another generic card.
 
 ## CONNECTED SYSTEM SECTION
+
 Immediately after Products & Services, add a visual system section.
 
 Eyebrow:
@@ -243,6 +265,7 @@ AI AGENTS
 CUSTOM AUTOMATION / BUILDS
 
 The diagram should communicate:
+
 - Lead Scraper finds/prepares data
 - Jarvis CRM stores and manages the opportunity
 - xCerebro works assigned tasks
@@ -252,6 +275,7 @@ The diagram should communicate:
 Motion must represent data movement and handoffs, not decorative animation.
 
 ## LEAD SCRAPER DEDICATED SECTION
+
 Give Lead Scraper its own full-width section later on the homepage.
 
 Headline:
@@ -263,6 +287,7 @@ Copy:
 Show a large product UI mockup.
 
 Create tabs or filters for example source types:
+
 - Foreclosure
 - Probate
 - Tax Delinquent
@@ -276,6 +301,7 @@ Include a small note:
 Do NOT promise unlimited or guaranteed leads.
 
 ## XCEREBRO DEDICATED SECTION
+
 Headline:
 **AI agents with a job, a scope, and a set of rules.**
 
@@ -283,6 +309,7 @@ Supporting copy:
 **xCerebro agents are assigned defined responsibilities, connected to approved tools, and governed by permissions, approvals, logs, and escalation rules.**
 
 Show agent role cards such as:
+
 - Lead Manager
 - Appointment Setter
 - Follow-Up Agent
@@ -291,6 +318,7 @@ Show agent role cards such as:
 - Custom Agent
 
 Each card can show:
+
 - status
 - responsibilities
 - connected tools
@@ -302,6 +330,7 @@ CTA:
 **Explore xCerebro**
 
 ## JARVIS CRM DEDICATED SECTION
+
 Headline:
 **The operating hub for your revenue workflow.**
 
@@ -315,6 +344,7 @@ Do not imply every xCerebro agent or Lead Scraper service is automatically inclu
 Clearly separate Jarvis CRM from add-on products and services.
 
 ## CUSTOM BUILDS DEDICATED SECTION
+
 Headline:
 **Your process does not need to fit our template.**
 
@@ -322,6 +352,7 @@ Supporting copy:
 **We map how your business works, then build the system around it.**
 
 Show examples:
+
 - Real estate acquisition
 - Home services
 - Agency sales
@@ -332,34 +363,40 @@ CTA:
 **Map My Workflow**
 
 ## NAVIGATION
+
 Update the main navigation.
 
 Use:
 
 **Products**
+
 - Jarvis CRM
 - xCerebro AI Agents
 - Lead Scraper
 
 **Services**
+
 - Custom Builds
 - Custom Pipelines
 - AI Agent Installation
 - Automation & Integrations
 
 Then:
+
 - Solutions
 - Customers
 - Pricing
 - Resources
 
 Right side:
+
 - Sign In
 - Build My System
 
 Do not show "AI Staff" or "Lead Engines" as top-level primary product names anymore.
 
 ## PRICING / COMMERCIAL CLARITY
+
 Do not imply that all four products are included in $97/month.
 
 Where pricing is shown:
@@ -379,6 +416,7 @@ Custom quote / scoped implementation
 Do not fabricate prices beyond already verified/public pricing.
 
 ## SOFTWARE STACK COMPARISON
+
 Keep the existing software-stack comparison section.
 
 Make clear the comparison is specifically about **Jarvis CRM/core platform capabilities**, not all products/services.
@@ -387,9 +425,11 @@ Add a note:
 **Comparison reflects Jarvis CRM platform capabilities. AI agent deployments, lead scraping/data services, communications usage, and custom implementation may be priced separately.**
 
 ## VISUAL DIRECTION
+
 Keep the current premium futuristic direction.
 
 Use:
+
 - deep black/navy
 - electric cobalt
 - cyan accents
@@ -400,6 +440,7 @@ Use:
 - JetBrains Mono for labels/metrics/system text
 
 Avoid:
+
 - AI robots
 - generic AI faces
 - excessive glassmorphism
@@ -416,7 +457,9 @@ not
 **AI template / cyberpunk game**
 
 ## MOTION RULES
+
 Use purposeful motion only for:
+
 - data moving through Lead Scraper
 - CRM pipeline movement
 - AI agent activity/status
@@ -434,6 +477,7 @@ Do not reintroduce the hydration bug that was previously fixed.
 Do not use random values, Date.now(), Math.random(), or client-only initial animation states that differ from SSR.
 
 ## TECHNICAL REQUIREMENTS
+
 Work inside the current architecture.
 Do not rebuild the site from scratch.
 Reuse existing components where appropriate.
@@ -442,6 +486,7 @@ Keep Server Components by default.
 Use Client Components only when required for interactions, motion, tabs, product demos, or animated diagrams.
 
 Maintain:
+
 - accessibility
 - mobile responsiveness
 - keyboard navigation
@@ -451,7 +496,9 @@ Maintain:
 - performance
 
 ## CONTENT RULES
+
 Do not fabricate:
+
 - testimonials
 - case-study results
 - usage metrics
@@ -463,17 +510,20 @@ Do not fabricate:
 Any demo data inside UI mockups must be clearly presented as example/demo data.
 
 Do not promise:
+
 - guaranteed leads
 - guaranteed revenue
 - "never miss a deal"
 - unlimited data
 
 ## IMPLEMENTATION APPROACH
+
 Do not ask me a series of small design questions.
 
 Make reasonable implementation decisions based on the existing Jarvis design system and this specification.
 
 If something is not explicitly defined:
+
 1. preserve the current design language
 2. choose the cleaner/more premium option
 3. avoid introducing new dependencies unless necessary
@@ -482,7 +532,9 @@ If something is not explicitly defined:
 Only stop and ask me if a missing decision would create destructive changes or materially change product truth.
 
 ## BEFORE IMPLEMENTING
+
 First inspect:
+
 - current homepage sections
 - current navigation
 - current content data files
@@ -495,6 +547,7 @@ Then give me ONE concise implementation plan.
 After I approve the plan, implement the full scope without asking section-by-section questions.
 
 ## FINAL ACCEPTANCE CHECK
+
 Before saying the work is complete, verify:
 
 1. A first-time visitor can distinguish Jarvis CRM, xCerebro AI Agents, Lead Scraper, and Custom Builds within 10 seconds.

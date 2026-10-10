@@ -84,9 +84,7 @@ function OfferSection({
 
         <Reveal>{children}</Reveal>
 
-        <p className="type-label text-faint">
-          {note ?? offer.pricing}
-        </p>
+        <p className="type-label text-faint">{note ?? offer.pricing}</p>
       </Container>
     </Section>
   );
@@ -100,7 +98,7 @@ export function CrmSection() {
       title="The operating hub for your revenue workflow."
       description="Jarvis CRM gives your team one place to manage leads, conversations, pipelines, tasks, appointments, automations, and reporting."
       cta="Explore Jarvis CRM"
-      note="Starting from $97/month. AI agent deployments, lead scraping, and custom implementation are separate."
+      note="Starting from $97/month. Premium includes four AI agents. Additional agent deployments, lead scraping, and custom implementation are separate."
     >
       <ProductFrame label="Jarvis CRM / Example pipeline" status="Demo">
         <PipelineBoard />
@@ -158,7 +156,10 @@ export function BuildsSection() {
             "Professional services",
             "Custom sales process",
           ].map((example) => (
-            <li key={example} className="bg-ink-950 px-4 py-3.5 text-sm text-muted">
+            <li
+              key={example}
+              className="bg-ink-950 px-4 py-3.5 text-sm text-muted"
+            >
               {example}
             </li>
           ))}

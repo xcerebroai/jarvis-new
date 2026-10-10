@@ -98,9 +98,9 @@ export function CrmPricing() {
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="max-w-[62ch] text-xs leading-relaxed text-faint">
-            Prices are for {brand.crm}. {brand.agents}, {brand.scraper}, and{" "}
-            {brand.builds} are separate offers and are not included in these
-            plans.
+            Premium includes four AI agents. Standalone or additional{" "}
+            {brand.agents} deployments, {brand.scraper}, and {brand.builds} are
+            available separately.
           </p>
           <Link
             href="/pricing"

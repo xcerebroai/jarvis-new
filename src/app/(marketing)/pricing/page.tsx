@@ -17,7 +17,7 @@ import { cn } from "@/lib/cn";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Jarvis CRM from $97 a month. Lead Scraper is $500 per county. xCerebro AI Agents and Custom Builds are separate offers.",
+    "Jarvis CRM starts at $97 a month. Premium includes four AI agents. Lead Scraper is $500 per county; standalone agents and Custom Builds are available separately.",
 };
 
 const tiers = [
@@ -82,7 +82,7 @@ export default function PricingPage() {
       <PageHero
         eyebrow="Pricing"
         title="Published plans, scoped around your operation"
-        description="Jarvis CRM has published monthly plans. Lead Scraper is a separate product at $500 per county. xCerebro AI Agents and Custom Builds are also separate offers. None is included in a CRM plan unless explicitly listed in your purchase."
+        description="Jarvis CRM has published monthly plans, with four AI agents included in Premium. Lead Scraper is a separate product at $500 per county. Standalone xCerebro deployments and Custom Builds are scoped separately."
       />
 
       <PricingComparison />
@@ -98,7 +98,7 @@ export default function PricingPage() {
           <SectionHeader
             eyebrow="Optional CRM bundles"
             title="Start with your CRM. Choose what connects."
-            description="Keep Jarvis CRM on its own, or combine it with xCerebro AI Agents, Lead Scraper, and Custom Builds. Lead Scraper is $500 per county as a separate product. Optional bundles are scoped and quoted; the base CRM price does not include these offers."
+            description="Premium includes four AI agents. For a broader build, combine Jarvis CRM with additional xCerebro deployments, Lead Scraper, or Custom Builds. Lead Scraper is $500 per county; optional bundles are scoped and quoted."
           />
 
           <div className="grid gap-4 lg:grid-cols-3">
