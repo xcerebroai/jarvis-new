@@ -144,7 +144,7 @@ export const offers: Offer[] = [
     icon: BotIcon,
     accent: "neon",
     kind: "product",
-    pricing: "Separate product: deployment options",
+    pricing: "Standalone or additional deployments: quoted by scope",
   },
   {
     id: "scraper",

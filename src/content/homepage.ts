@@ -126,6 +126,6 @@ export const faqs = [
   {
     question: "What does it cost?",
     answer:
-      "Jarvis CRM plans start at $97/month. Lead Scraper is a separate product at $500 per county. xCerebro AI Agents, Custom Builds, communications usage, and implementation are priced separately. CRM bundle options are available on the pricing page.",
+      "Jarvis CRM plans start at $97/month. Premium includes four AI agents. Lead Scraper is a separate product at $500 per county. Standalone or additional xCerebro deployments, Custom Builds, communications usage, and implementation are priced separately. CRM bundle options are available on the pricing page.",
   },
 ];

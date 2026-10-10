@@ -21,7 +21,11 @@ const catalogItems = [
       icon: offer.icon,
       summary: summaries[offer.id],
       category:
-        offer.kind === "product" ? "Separate product" : "Separate service",
+        offer.id === "agents"
+          ? "Also available separately"
+          : offer.kind === "product"
+            ? "Separate product"
+            : "Separate service",
       pricing: offer.pricing,
     })),
 ];
@@ -45,12 +49,13 @@ export function ProductsServices() {
               id="other-products-heading"
               className="font-display text-h3 text-paper"
             >
-              More options, sold separately.
+              More ways to build your system.
             </h2>
             <p className="max-w-2xl text-sm leading-relaxed text-muted">
-              xCerebro AI Agents, Lead Scraper, Custom Builds, and our coaching
-              programs are separate offers. They are not included in Jarvis CRM
-              plans. Choose them on their own or ask about an optional bundle.
+              Premium includes four AI agents. Standalone or additional xCerebro
+              deployments, Lead Scraper, Custom Builds, and our coaching
+              programs are separate offers. Choose them on their own or ask
+              about an optional bundle.
             </p>
           </div>
           <Link

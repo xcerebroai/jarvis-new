@@ -50,8 +50,8 @@ export function MegaMenu({
 
               <div className="hairline-t flex items-center justify-between bg-ink-900 px-8 py-4">
                 <p className="text-sm text-muted">
-                  These offers are separate from Jarvis CRM.{" "}
-                  <span className="text-paper">{site.line}</span>
+                  Premium includes four AI agents. Other offers are available
+                  separately. <span className="text-paper">{site.line}</span>
                 </p>
                 <NavigationMenu.Link asChild>
                   <Link

@@ -52,7 +52,7 @@ export const costComparisons: CostComparison[] = [
     offer: {
       label: "xCerebro AI Agents",
       cost: "Quoted",
-      costNote: "by deployment and number of roles",
+      costNote: "for standalone or additional deployments",
     },
     rows: [
       {
@@ -184,4 +184,4 @@ export const costComparisons: CostComparison[] = [
 ];
 
 export const costDisclaimer =
-  "Costs shown for the conventional approach are typical figures, not quotes and not claims about any named vendor. Jarvis CRM is the only offer here with a published price; the rest are quoted by scope. Your own numbers will differ.";
+  "Costs shown for the conventional approach are illustrative, not quotes or claims about any named vendor. Jarvis CRM plans have published prices, with four AI agents in Premium. Lead Scraper is $500 per county. Standalone or additional agent deployments and custom work are quoted by scope. Your own numbers will differ.";

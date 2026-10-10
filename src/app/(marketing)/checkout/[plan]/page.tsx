@@ -7,7 +7,11 @@ import { PageHero } from "@/components/layout/page-hero";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { pricingGroups, pricingPlans } from "@/content/pricing";
+import {
+  premiumAgentRoles,
+  pricingGroups,
+  pricingPlans,
+} from "@/content/pricing";
 import { getBillingConfiguration } from "@/lib/billing-config";
 
 type CheckoutPageProps = { params: Promise<{ plan: string }> };
@@ -103,6 +107,34 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
                 );
               })}
             </div>
+            {plan.id === "premium" ? (
+              <div className="rounded-lg border border-cobalt-500/30 bg-cobalt-glow p-6">
+                <span className="type-label-wide text-cobalt-400">
+                  Four AI agents included
+                </span>
+                <h3 className="mt-2 font-display text-h3 text-paper">
+                  Four agents, each with a defined role
+                </h3>
+                <p className="mt-3 max-w-[60ch] text-sm leading-relaxed text-muted">
+                  In a real estate setup, the four roles can cover seller
+                  conversations, CRM coordination, property analysis, and
+                  agreement preparation. Your team approves offers and final
+                  terms.
+                </p>
+                <ul className="mt-5 grid gap-4 sm:grid-cols-2">
+                  {premiumAgentRoles.map((role) => (
+                    <li key={role.title} className="flex flex-col gap-1">
+                      <span className="font-display text-sm font-medium text-paper">
+                        {role.title}
+                      </span>
+                      <span className="text-sm leading-relaxed text-muted">
+                        {role.description}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
           </div>
 
           <aside
@@ -167,8 +199,9 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
             )}
 
             <p className="border-t border-line pt-5 text-xs leading-relaxed text-faint">
-              xCerebro AI Agents, Lead Scraper, communications usage, and custom
-              implementation are priced separately.
+              {plan.id === "premium"
+                ? "Four AI agents are included in Premium. Additional xCerebro deployments, Lead Scraper, communications usage, and custom implementation are priced separately."
+                : "Premium includes four AI agents. Standalone xCerebro deployments, Lead Scraper, communications usage, and custom implementation are priced separately."}
             </p>
             <Link
               href="/pricing"

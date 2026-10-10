@@ -6,7 +6,8 @@
  * figures. The owner renamed Basic to Standard and supplied its $97/month
  * checkout on 2026-09-10. Unlike `stack.ts` and `ai-agent.ts`, this is real. It is also a
  * copy, so it drifts the moment the live page changes: re-check before launch
- * and whenever pricing moves.
+ * and whenever pricing moves. The owner added four AI agents to Premium on
+ * 2026-10-09.
  */
 
 export type PlanCell = boolean | string;
@@ -44,7 +45,7 @@ export const pricingPlans: PricingPlan[] = [
     name: "Premium",
     price: "$297",
     cadence: "per month",
-    summary: "Elite, plus full mentorship alongside the system.",
+    summary: "Elite features, four AI agents, and full mentorship.",
     featured: false,
   },
 ];
@@ -87,6 +88,7 @@ export const pricingGroups: PricingGroup[] = [
     features: [
       { label: "Realtor Outreach AI", values: [false, true, true] },
       { label: "Disposition AI", values: [false, true, true] },
+      { label: "AI agent team", values: [false, false, "4 agents included"] },
       { label: "Buyers list", values: [false, "2M+ contacts", "2M+ contacts"] },
     ],
   },
@@ -98,3 +100,23 @@ export const pricingGroups: PricingGroup[] = [
     ],
   },
 ];
+
+/** A real estate example drawn from a four-agent client workflow. */
+export const premiumAgentRoles = [
+  {
+    title: "Seller conversations",
+    description: "Qualification, missing details, and follow-up.",
+  },
+  {
+    title: "CRM coordination",
+    description: "Records, tasks, owners, and next actions.",
+  },
+  {
+    title: "Property analysis",
+    description: "Comparable sales, repair context, and deal options.",
+  },
+  {
+    title: "Agreement preparation",
+    description: "Drafts based on terms approved by your team.",
+  },
+] as const;
