@@ -15,12 +15,12 @@ const columns = [
     icon: BotIcon,
     accent: "border-hud bg-neon-glow text-neon-400",
     items: [
-      "First response, at any hour",
+      "Response workflows within the agreed scope",
       "Qualifying against your criteria",
-      "Follow-up sequences that stop on reply",
-      "Offering times and booking them",
-      "Logging every action on the record",
-      "Chasing missing fields and stalled stages",
+      "Follow-up sequences with configured stop rules",
+      "Scheduling support through connected calendars",
+      "Recording supported activity on contact records",
+      "Flagging missing details and follow-up tasks",
     ],
   },
   {
@@ -45,7 +45,7 @@ export function HumanAiSection() {
         <SectionHeader
           eyebrow="Human + AI"
           title="Agents do the volume. People do the deciding."
-          description="Automation earns trust by having limits. Every agent runs inside a scope you set, and the work that commits money or reputation stops at a person."
+          description="Define permitted actions and handoffs during setup. Your team reviews pricing, offers, agreements, and other business commitments."
         />
 
         <div className="grid gap-4 lg:grid-cols-2">

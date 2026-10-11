@@ -28,7 +28,7 @@ const offerings = [
   },
   {
     title: "Integrations",
-    body: "Connections to the systems you already depend on, including internal tools with nothing off-the-shelf available.",
+    body: "Review connections to the systems you already depend on and scope supported integrations around your needs.",
   },
   {
     title: "Bespoke AI agents",
@@ -54,9 +54,9 @@ export default function CustomPage() {
           <SectionHeader
             eyebrow="Workflows"
             title="Automation that knows when to stop"
-            description="A run advances on its own until it reaches a step you marked as human. Then it waits."
+            description="Define which steps can run automatically and where your team needs to review the next action."
           />
-          <ProductFrame label="Workflows / Offer approval" status="Draft">
+          <ProductFrame label="Workflows / Human approval">
             <WorkflowCanvas />
           </ProductFrame>
         </Container>

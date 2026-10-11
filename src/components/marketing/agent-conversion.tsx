@@ -23,7 +23,7 @@ export function AgentConversion() {
         className="grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16"
       >
         <Reveal className="order-2 lg:order-1">
-          <ProductFrame label="Conversations / Inbound" status="Agent live">
+          <ProductFrame label="AI agents / Scope and setup">
             <AgentConversation />
           </ProductFrame>
         </Reveal>
@@ -33,13 +33,12 @@ export function AgentConversion() {
             Sales agent
           </span>
           <h2 className="text-h2 md:text-display-md max-w-[16ch] text-balance text-paper">
-            Every lead answered, then moved forward.
+            Follow-up shaped around your business.
           </h2>
           <p className="max-w-[52ch] text-lg leading-relaxed text-muted">
-            Leads arrive from every channel at every hour. The sales agent picks
-            each one up in seconds, qualifies it against your criteria, and
-            works toward the next real step: a booked call, not a reply that
-            closes the loop and goes nowhere.
+            Define how your agent supports conversations, collects information,
+            and helps your team follow up. We scope the supported channels,
+            connected tools, permitted actions, and handoffs for your business.
           </p>
           <Link
             href={site.cta.primary.href}

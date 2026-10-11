@@ -30,10 +30,10 @@ export const agents: Agent[] = [
     role: "First response",
     icon: UserRoundCheckIcon,
     summary:
-      "Answers every inbound lead in seconds, qualifies against your criteria, and routes to the right owner.",
+      "Supports inbound response, qualification, and routing through the channels and criteria included in your setup.",
     triggers: ["New inbound lead", "Form submission", "Missed call"],
     actions: ["Reply and qualify", "Enrich record", "Route to owner"],
-    approval: "Auto-sends first response; escalates anything off-script.",
+    approval: "Agree on permitted responses and human handoffs during setup.",
   },
   {
     id: "follow-up",
@@ -41,8 +41,8 @@ export const agents: Agent[] = [
     role: "Persistence",
     icon: RepeatIcon,
     summary:
-      "Runs multi-touch sequences that stop the moment a human replies.",
-    triggers: ["No reply in 48h", "Stage stalled", "Reactivation list"],
+      "Supports follow-up sequences with timing and stop rules configured around your process.",
+    triggers: ["No reply within your chosen window", "Stage stalled", "Reactivation list"],
     actions: ["Send sequence step", "Log attempt", "Pause on reply"],
     approval: "Sequences pre-approved; new messaging needs sign-off.",
   },
@@ -52,7 +52,7 @@ export const agents: Agent[] = [
     role: "Calendar",
     icon: CalendarCheckIcon,
     summary:
-      "Negotiates times against live availability and books directly onto the right calendar.",
+      "Supports scheduling through connected calendars and the booking rules included in your setup.",
     triggers: ["Lead qualified", "Reschedule request", "No-show"],
     actions: ["Offer times", "Book meeting", "Send reminders"],
     approval: "Books inside your rules; conflicts go to the owner.",
@@ -63,9 +63,9 @@ export const agents: Agent[] = [
     role: "Deal intake",
     icon: HandshakeIcon,
     summary:
-      "Collects deal inputs, runs your numbers, and assembles the packet before a human ever opens it.",
+      "Helps collect deal information and prepare a summary for your team to review.",
     triggers: ["New opportunity", "Offer requested", "Data received"],
-    actions: ["Gather inputs", "Run criteria", "Draft summary"],
+    actions: ["Gather inputs", "Run criteria", "Prepare summary"],
     approval: "Every offer figure requires human approval.",
   },
   {
@@ -74,7 +74,7 @@ export const agents: Agent[] = [
     role: "Throughput",
     icon: GitBranchIcon,
     summary:
-      "Watches every stage for stalls, missing fields, and overdue tasks, then fixes or flags them.",
+      "Supports configured checks for missing fields, overdue tasks, and opportunities that need attention.",
     triggers: ["Stage timeout", "Missing field", "Task overdue"],
     actions: ["Nudge owner", "Update record", "Reassign"],
     approval: "Reassignment above a threshold needs a manager.",
@@ -97,8 +97,8 @@ export const agents: Agent[] = [
     icon: SettingsIcon,
     summary:
       "A role built to your operation, with your triggers, tools, and approval gates.",
-    triggers: ["Any system event", "Schedule", "Manual dispatch"],
-    actions: ["Defined by you", "Any integration", "Any pipeline write"],
+    triggers: ["Supported system events", "Schedule", "Manual dispatch"],
+    actions: ["Defined by you", "Scoped integrations", "Approved record updates"],
     approval: "Scoped during the build.",
   },
 ];

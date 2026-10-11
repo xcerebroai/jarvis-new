@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 const features = [
   {
     title: "CRM",
-    body: "One record per contact with full history: every call, message, task, and stage change in one timeline.",
+    body: "Keep contact details, communication history, tasks, and opportunity information together.",
   },
   {
     title: "Custom pipelines",
@@ -28,7 +28,7 @@ const features = [
   },
   {
     title: "Unified conversations",
-    body: "Calls, texts, and email land in one inbox threaded to the record, so nobody works from a separate app.",
+    body: "Bring supported calls, texts, and email into your contact communication history.",
   },
   {
     title: "Workflows",
@@ -40,7 +40,7 @@ const features = [
   },
   {
     title: "Calendars",
-    body: "Real availability across your team, with booking rules that respect territory, capacity, and working hours.",
+    body: "Set up appointment availability and booking rules for your team.",
   },
   {
     title: "Dashboards",
@@ -48,11 +48,11 @@ const features = [
   },
   {
     title: "Reporting",
-    body: "Attribution from first touch to closed, without exporting anything to a spreadsheet.",
+    body: "Review reporting using the source, activity, and opportunity data captured in your account.",
   },
   {
     title: "Permissions",
-    body: "Role-based access down to the field, covering both people and the AI staff acting on your behalf.",
+    body: "Configure available user permissions around the access your team needs.",
   },
 ];
 
@@ -62,7 +62,7 @@ export default function CorePage() {
       <PageHero
         eyebrow="Jarvis CRM"
         title="The operating layer for your revenue"
-        description="Core is the system of record everything else runs on. Pipelines, conversations, and work in one place, so no deal depends on someone remembering it."
+        description="Bring your contacts, pipelines, conversations, and tasks together in Jarvis so your team can organize its next steps."
       />
 
       <Section tone="alt">
@@ -70,7 +70,7 @@ export default function CorePage() {
           <SectionHeader
             eyebrow="Pipelines"
             title="Stages that match how you sell"
-            description="Records advance on rules you define. The board reflects reality without anyone maintaining it."
+            description="Organize opportunities with stages, ownership, and workflow rules configured around your process."
           />
           <ProductFrame label="Pipelines / Acquisitions">
             <PipelineBoard />
@@ -82,8 +82,8 @@ export default function CorePage() {
         <Container width="wide" className="flex flex-col gap-8">
           <SectionHeader
             eyebrow="Conversations"
-            title="Every channel, one thread"
-            description="Calls, texts, and email attach to the record automatically, including anything an agent sent on your behalf."
+            title="Conversations with context"
+            description="Keep supported calls, texts, and email connected to contact records so your team can review the history."
           />
           <ProductFrame label="Conversations / Inbox">
             <ConversationInbox />

@@ -38,7 +38,7 @@ export function CrmBento() {
         <SectionHeader
           eyebrow={`${brand.crm} / how it holds together`}
           title="One record, and everything attached to it"
-          description="The reason a CRM earns its place is that nothing important lives outside it. These are the parts that make that true."
+          description="Bring contact information, communication, ownership, and reporting together in your day-to-day work."
         />
 
         <div className="grid grid-cols-6 gap-4">
@@ -78,8 +78,7 @@ export function CrmBento() {
             <div className="mt-6 space-y-2 text-center">
               <CardTitle>Scoped by role</CardTitle>
               <CardDescription>
-                People see the records their role allows, and every change is
-                attributed to whoever made it.
+                Configure available user permissions around the access your team needs.
               </CardDescription>
             </div>
           </Card>
@@ -149,7 +148,7 @@ export function CrmBento() {
                 </span>
               ))}
               <span className="type-label mt-1 text-faint">
-                Stage shape, not live data
+                Configure your stages
               </span>
             </div>
           </Card>
@@ -167,8 +166,7 @@ export function CrmBento() {
               <div className="space-y-2">
                 <CardTitle>Everything has an owner</CardTitle>
                 <CardDescription>
-                  Records route to a person, not a shared inbox, so nothing sits
-                  waiting for someone to notice it.
+                  Assign records to the people responsible for their next steps.
                 </CardDescription>
               </div>
             </div>

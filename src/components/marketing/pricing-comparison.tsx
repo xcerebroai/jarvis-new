@@ -83,7 +83,7 @@ export function PricingComparison() {
                     <span className="flex flex-col items-center gap-1">
                       {plan.featured ? (
                         <span className="mb-1 inline-flex items-center rounded-full border border-cobalt-500/30 bg-cobalt-500/10 px-2 py-0.5 type-label text-cobalt-400">
-                          Most popular
+                          Featured plan
                         </span>
                       ) : null}
                       <span className="font-display text-base font-medium text-paper">

@@ -53,7 +53,7 @@ export default function ChoosePlanPage() {
                     </h2>
                     {plan.featured ? (
                       <span className="type-label rounded-full border border-cobalt-500/30 bg-cobalt-500/10 px-2.5 py-0.5 text-cobalt-400">
-                        Most popular
+                        Featured plan
                       </span>
                     ) : null}
                   </div>
@@ -123,10 +123,10 @@ export default function ChoosePlanPage() {
               Scraper, and Custom Builds are available separately.
             </p>
             <Link
-              href="/pricing#compare"
+              href="/products"
               className="shrink-0 text-sm font-medium text-cobalt-400 hover:text-paper"
             >
-              Compare all features
+              Explore all products
             </Link>
           </div>
           <Link

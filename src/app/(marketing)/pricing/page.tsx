@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import { PageHero } from "@/components/layout/page-hero";
 import { CtaBand } from "@/components/marketing/cta-band";
-import { CostComparisons } from "@/components/marketing/cost-comparisons";
 import { PricingComparison } from "@/components/marketing/pricing-comparison";
 import { PrivateOnboardingCard } from "@/components/marketing/private-onboarding-card";
 import { buttonVariants } from "@/components/ui/button";
@@ -180,8 +179,6 @@ export default function PricingPage() {
           </dl>
         </Container>
       </Section>
-
-      <CostComparisons />
 
       <CtaBand
         title="Get an accurate number"

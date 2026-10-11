@@ -318,7 +318,7 @@ export default function ProductsPage() {
                     />
                     {plan.featured ? (
                       <span className="rounded-full border border-cobalt-400/30 bg-cobalt-glow px-3 py-1 text-xs text-cobalt-400">
-                        Most popular
+                        Featured plan
                       </span>
                     ) : null}
                   </div>

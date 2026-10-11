@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 
-import { StatusDot } from "@/components/ui/status-dot";
 import { cn } from "@/lib/cn";
 
 type ProductFrameProps = {
@@ -13,12 +12,11 @@ type ProductFrameProps = {
 };
 
 /**
- * Chrome around every product view. The breadcrumb and live badge are what
- * make a static panel read as a real screen rather than an illustration.
+ * Shared frame for product capabilities and process diagrams.
  */
 export function ProductFrame({
   label,
-  status = "Live",
+  status,
   children,
   className,
   bodyClassName,
@@ -32,11 +30,9 @@ export function ProductFrame({
     >
       <div className="hairline-b flex items-center justify-between gap-4 bg-ink-850 px-4 py-2.5">
         <span className="truncate type-label text-faint">{label}</span>
-        <span className="flex shrink-0 items-center gap-1.5 type-label text-muted">
-          {/* `text-ok` supplies currentColor for the expanding ring. */}
-          <StatusDot tone="ok" className="jarvis-status text-ok" />
-          {status}
-        </span>
+        {status ? (
+          <span className="shrink-0 type-label text-muted">{status}</span>
+        ) : null}
       </div>
       <div className={cn("p-4 md:p-5", bodyClassName)}>{children}</div>
     </div>

@@ -4,8 +4,6 @@ import Link from "next/link";
 
 import { PageHero } from "@/components/layout/page-hero";
 import { AgentConversion } from "@/components/marketing/agent-conversion";
-import { AgentCost } from "@/components/marketing/agent-cost";
-import { AgentImpact } from "@/components/marketing/agent-impact";
 import { CtaBand } from "@/components/marketing/cta-band";
 import { FeatureGrid } from "@/components/marketing/feature-grid";
 import { HumanAiSection } from "@/components/marketing/human-ai-section";
@@ -28,15 +26,15 @@ const principles = [
   },
   {
     title: "Explicit triggers",
-    body: "Agents wake on system events you choose. Nothing runs on a vague sense that it might be helpful.",
+    body: "Define the events that can trigger an agent as part of the agreed implementation scope.",
   },
   {
     title: "Approval gates",
-    body: "You decide which actions send on their own and which wait for a person. Offers and contracts usually wait.",
+    body: "Define which actions require approval. Keep offers and contracts subject to human review before sending.",
   },
   {
-    title: "Full activity log",
-    body: "Every action an agent takes is recorded on the record with what it did and why it fired.",
+    title: "Activity history",
+    body: "Configure activity logging for the actions and connected systems included in your build.",
   },
 ];
 
@@ -65,7 +63,7 @@ export default function AiStaffPage() {
           <SectionHeader
             eyebrow="The roster"
             title="Seven roles, scoped to your process"
-            description="Select a role to see what wakes it, what it is allowed to do, and where a human signs off."
+            description="Potential roles for a scoped custom deployment. Included actions depend on the agreed build and connected systems."
           />
           <AgentStaff />
         </Container>
@@ -73,14 +71,10 @@ export default function AiStaffPage() {
 
       <AgentConversion />
 
-      <AgentImpact />
-
-      <AgentCost />
-
       <FeatureGrid
         eyebrow="How they work"
         title="Autonomy with boundaries"
-        description="AI that can send on your behalf needs a clear scope. These four rules apply to every agent."
+        description="Define the agent’s role, triggers, approval steps, and activity history as part of your agreed implementation scope."
         features={principles}
         columns={4}
       />

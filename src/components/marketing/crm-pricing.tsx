@@ -55,7 +55,7 @@ export function CrmPricing() {
               <div className="flex flex-col gap-2">
                 {plan.featured ? (
                   <span className="inline-flex w-fit items-center rounded-full border border-cobalt-500/30 bg-cobalt-500/10 px-2.5 py-0.5 type-label text-cobalt-400">
-                    Most popular
+                    Featured plan
                   </span>
                 ) : null}
                 <h3 className="font-display text-h3 text-paper">{plan.name}</h3>

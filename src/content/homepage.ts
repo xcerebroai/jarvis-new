@@ -52,7 +52,7 @@ export const steps = [
   {
     number: "03",
     title: "Connect",
-    body: "Phone, email, calendar, ads, payments, and data sources are wired into one record per contact.",
+    body: "Connect the tools and data sources included in your agreed implementation scope.",
   },
   {
     number: "04",
@@ -106,12 +106,12 @@ export const faqs = [
   {
     question: "How long does implementation take?",
     answer:
-      "Most builds go live in two to six weeks depending on how many integrations and custom workflows are in scope. The mapping phase happens first so you see the plan before anything is built.",
+      "Implementation timing depends on the agreed scope, integrations, and access required. We confirm the implementation plan before building.",
   },
   {
     question: "Do we have to replace the tools we already pay for?",
     answer:
-      "Only the ones Jarvis makes redundant. Your phone system, calendar, ad accounts, and payment processor stay where they are and connect in. The CRM and automation layers are usually what get consolidated.",
+      "We review your current tools and identify which connections are available and included in your agreed scope.",
   },
   {
     question: "How does CRM follow-up work?",

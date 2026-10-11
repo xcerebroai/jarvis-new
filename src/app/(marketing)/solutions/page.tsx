@@ -19,7 +19,7 @@ const solutions = [
     problem:
       "The owner is still the best closer, and the system depends on them remembering everything.",
     approach:
-      "AI staff take first response and follow-up so the owner only touches deals that are ready for a decision.",
+      "Scope AI support for first response and follow-up, with the owner involved at the decision points the business defines.",
     pillars: ["Jarvis CRM", "xCerebro"],
   },
   {
@@ -28,7 +28,7 @@ const solutions = [
     problem:
       "Lists arrive raw, overlap with what you already own, and go stale before anyone works them.",
     approach:
-      "Engines source, clean, dedupe, and score nightly, then route only the priority set to the right buyer.",
+      "Scope available lead sources, cleanup, deduplication, scoring, and routing around the selected market and agreed workflow.",
     pillars: ["Lead Scraper", "Custom Builds"],
   },
   {
@@ -37,7 +37,7 @@ const solutions = [
     problem:
       "Missed calls are lost jobs, and quoting depends on whoever is free to call back.",
     approach:
-      "Every missed call triggers an immediate text, qualification, and a booked estimate against real availability.",
+      "Configure supported missed-call follow-up and scheduling workflows around your team’s availability and approval rules.",
     pillars: ["xCerebro", "Jarvis CRM"],
   },
   {
@@ -55,7 +55,7 @@ const solutions = [
     problem:
       "Client reporting is assembled by hand from six platforms every month.",
     approach:
-      "Unified conversations and attribution roll into a live dashboard per client that refreshes itself.",
+      "Organize supported communication and reporting data in dashboards configured around the client’s available records.",
     pillars: ["Core", "Custom"],
   },
 ];
@@ -66,7 +66,7 @@ export default function SolutionsPage() {
       <PageHero
         eyebrow="Solutions"
         title="One system, configured to your industry"
-        description="Jarvis started in real estate and grew into the businesses that share its shape: owner-led teams where leads arrive faster than people can work them."
+        description="Explore how Jarvis can be configured for real estate and other owner-led teams that need to organize contacts, conversations, and follow-up."
       />
 
       <Section tone="alt">

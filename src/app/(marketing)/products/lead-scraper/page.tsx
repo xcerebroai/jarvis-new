@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 const stages = [
   {
     title: "Public record sourcing",
-    body: "County and public data sources pulled on a schedule you set, in the jurisdictions you actually work.",
+    body: "Source available county and public records in the jurisdictions included in your setup.",
   },
   {
     title: "Data cleanup",
@@ -29,7 +29,7 @@ const stages = [
   },
   {
     title: "Deduplication",
-    body: "Matched against everything already in your CRM so nobody works a lead a colleague is already on.",
+    body: "Identify matching records using the agreed data fields and deduplication criteria.",
   },
   {
     title: "Lead scoring",
@@ -41,7 +41,7 @@ const stages = [
   },
   {
     title: "Custom scrapers",
-    body: "When a source matters to your business and no integration exists, we build the collector for it.",
+    body: "Review additional source requests for availability and feasibility before agreeing on a custom collector.",
   },
 ];
 
@@ -50,7 +50,7 @@ export default function LeadEnginesPage() {
     <>
       <PageHero
         eyebrow="Lead Scraper"
-        title="Leads sourced, cleaned, and routed on their own"
+        title="A clearer path from public records to your CRM"
         description="Lead Scraper is a separate product at $500 per county. It is not included in Jarvis CRM plans. Turn raw sources into records your team can work."
       />
 
@@ -59,11 +59,10 @@ export default function LeadEnginesPage() {
           <SectionHeader
             eyebrow="The pipeline"
             title="From raw source to assigned owner"
-            description="Follow an example run from public records to CRM routing. Counts are illustrative; available sources and data fields vary by market."
+            description="Review the stages from source selection to CRM routing. Available sources, data fields, and integrations vary by market and agreed scope."
           />
           <ProductFrame
-            label="Lead Scraper / Example run 4182"
-            status="Demo"
+            label="Lead Scraper / Process"
             bodyClassName="p-0"
           >
             <LeadScraper />
@@ -80,7 +79,7 @@ export default function LeadEnginesPage() {
       <CtaBand
         title="Turn your sources into a working pipeline"
         description="Lead Scraper is $500 per county and is purchased separately from Jarvis CRM. Tell us which counties matter in your market."
-        primaryCta={{ label: "View product pricing", href: "/pricing#compare" }}
+        primaryCta={{ label: "View product pricing", href: "/products" }}
       />
     </>
   );
