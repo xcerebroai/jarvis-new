@@ -1,38 +1,43 @@
 import Link from "next/link";
+import { ArrowUpRightIcon } from "lucide-react";
 
 import { Container } from "@/components/ui/container";
-import { StatusDot } from "@/components/ui/status-dot";
 import { footerColumns, legalNav } from "@/content/nav";
-import { site } from "@/content/site";
+import { quentinContactUrl } from "@/content/personal-services";
 
 import { Logo } from "./logo";
 
 export function Footer() {
   return (
     <footer className="hairline-t bg-ink-950">
-      <Container width="wide" className="py-16 md:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1.2fr_repeat(4,minmax(0,1fr))]">
+      <Container width="wide" className="py-14 md:py-18">
+        <div className="flex flex-col justify-between gap-8 border-b border-line pb-10 md:flex-row md:items-center">
           <div className="flex flex-col gap-4">
-            {/* Same lockup as the header, at rest — the footer is not a place
-                for a breathing mark. */}
             <Logo animated={false} className="self-start" />
-            <p className="max-w-[28ch] text-sm leading-relaxed text-muted">
-              The {site.positioning} for owner-led sales businesses.
+            <p className="max-w-md text-sm leading-relaxed text-muted">
+              Your leads. Your follow-up. Your next move.
             </p>
-            <p className="font-display text-sm text-paper">{site.line}</p>
           </div>
-
+          <a
+            href={quentinContactUrl}
+            className="inline-flex max-w-full items-center gap-2 text-xs leading-relaxed text-cobalt-400 hover:text-paper"
+          >
+            DM Q for custom pricing to save money.
+            <ArrowUpRightIcon aria-hidden className="size-4 shrink-0" />
+          </a>
+        </div>
+        <div className="grid grid-cols-2 gap-x-8 gap-y-10 pt-10 md:grid-cols-3 lg:grid-cols-5">
           {footerColumns.map((column) => (
             <nav key={column.title} aria-label={column.title}>
-              <h2 className="font-mono text-eyebrow text-faint uppercase">
+              <h2 className="font-sans text-[10px] font-medium tracking-[.14em] text-faint uppercase">
                 {column.title}
               </h2>
-              <ul className="mt-4 flex flex-col gap-2.5">
+              <ul className="mt-5 flex flex-col gap-3">
                 {column.links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-muted transition-colors hover:text-paper"
+                      className="text-xs leading-relaxed text-muted transition-colors hover:text-paper"
                     >
                       {link.label}
                     </Link>
@@ -42,27 +47,16 @@ export function Footer() {
             </nav>
           ))}
         </div>
-
-        <div className="hairline-t mt-16 flex flex-col gap-4 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            <p className="font-mono text-xs text-faint">
-              © {new Date().getFullYear()} Jarvis
-            </p>
-            <Link
-              href="/status"
-              className="inline-flex items-center gap-2 font-mono text-xs text-faint transition-colors hover:text-muted"
-            >
-              <StatusDot tone="ok" />
-              All systems operational
-            </Link>
-          </div>
-
+        <div className="hairline-t mt-12 flex flex-col gap-4 pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-[11px] text-faint">
+            © {new Date().getFullYear()} Jarvis. Built around your business.
+          </p>
           <nav aria-label="Legal" className="flex flex-wrap gap-x-6 gap-y-2">
             {legalNav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="font-mono text-xs text-faint transition-colors hover:text-muted"
+                className="text-[11px] text-faint transition-colors hover:text-muted"
               >
                 {item.label}
               </Link>

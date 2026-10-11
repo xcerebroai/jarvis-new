@@ -1,14 +1,13 @@
-import { ArrowRightIcon, CheckIcon } from "lucide-react";
+import { CheckIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 import { PageHero } from "@/components/layout/page-hero";
-import { buttonVariants } from "@/components/ui/button";
+import { ServicePurchase } from "@/components/marketing/service-purchase";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { privateOnboarding } from "@/content/onboarding";
 import { getPrivateOnboardingCheckout } from "@/lib/billing-config";
-import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = {
   title: "Private onboarding",
@@ -76,25 +75,21 @@ export default function PrivateOnboardingPage() {
               <span className="type-label-wide text-cobalt-400">
                 Private onboarding
               </span>
-              <p className="type-metric text-display-md text-paper">
-                {privateOnboarding.price}
-              </p>
-              <p className="text-sm text-muted">{privateOnboarding.cadence}</p>
             </div>
             <p className="text-sm leading-relaxed text-muted">
               A2P setup, website creation, and two one-on-one coaching sessions.
               Your CRM subscription is billed separately.
             </p>
-            <a
-              href={checkout.href}
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "h-auto min-h-12 whitespace-normal px-4 py-3 text-sm sm:text-base",
-              )}
-            >
-              <span>Pay $300 for onboarding</span>
-              <ArrowRightIcon aria-hidden className="size-4 shrink-0" />
-            </a>
+            <ServicePurchase
+              id="onboarding-checkout"
+              name="Private onboarding"
+              checkout={{
+                href: checkout.href,
+                price: privateOnboarding.price,
+                billing:
+                  "One-time payment in USD. Final amount shown at checkout.",
+              }}
+            />
             <Link
               href="/pricing"
               className="text-sm font-medium text-cobalt-400 hover:text-paper"

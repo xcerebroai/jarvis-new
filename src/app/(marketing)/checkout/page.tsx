@@ -74,8 +74,8 @@ export default function ChoosePlanPage() {
                             Test checkout. No real payment will be taken.
                           </p>
                         ) : null}
-                        <a
-                          href={checkout.href}
+                        <Link
+                          href={`/checkout/${plan.id}`}
                           className={cn(
                             buttonVariants({
                               variant: plan.featured ? "primary" : "secondary",
@@ -92,7 +92,7 @@ export default function ChoosePlanPage() {
                             aria-hidden
                             className="size-4 shrink-0"
                           />
-                        </a>
+                        </Link>
                       </>
                     ) : (
                       <>

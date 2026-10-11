@@ -1,107 +1,107 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowUpRightIcon, CheckIcon } from "lucide-react";
 
-import { BuildForm } from "@/components/forms/build-form";
-import { Logo } from "@/components/layout/logo";
+import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/header";
+import { buttonVariants } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { site } from "@/content/site";
+import { quentinContactUrl } from "@/content/personal-services";
+import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = {
-  title: "Custom build request",
+  title: "Discuss your custom Jarvis build",
   description:
-    "Share your business details, current tools, and custom-build requirements before a discovery call with the Jarvis team.",
+    "Connect with Quentin to discuss a Jarvis implementation around your business, goals, workflows, and existing tools.",
 };
 
-const expectations = [
+const details = [
   {
-    title: "Your business and project",
-    body: "Tell us your industry and what you want the system to do.",
+    title: "Your business and goals",
+    body: "Tell Quentin what you do, how your team works, and what you want to improve.",
   },
   {
-    title: "A time that works for you",
-    body: "Share your preferred date, time, and time zone, plus any alternative availability.",
+    title: "Your process and tools",
+    body: "Share the systems you use and the workflows or handoffs you want to connect.",
   },
   {
-    title: "A call confirmed with our team",
-    body: "Your preferred time is a request. We will confirm an appointment with you separately.",
+    title: "Your project scope",
+    body: "Discuss the services, integrations, and implementation work you need before purchasing.",
   },
 ];
 
 export default function CustomBuildRequestPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="hairline-b">
-        <Container
-          width="wide"
-          className="flex h-18 items-center justify-between"
-        >
-          <Logo />
-          <Link
-            href="/"
-            className="text-sm text-muted transition-colors hover:text-paper"
-          >
-            Back to site
-          </Link>
-        </Container>
-      </header>
-
-      <main className="flex-1 py-8 md:py-14">
+    <>
+      <Header />
+      <main className="flex-1 py-16 md:py-24">
         <Container width="wide">
-          <div className="grid gap-8 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
-            <div className="flex flex-col gap-8 lg:sticky lg:top-20 lg:self-start">
-              <div className="flex flex-col gap-5">
-                <span className="font-mono text-eyebrow text-cobalt-400 uppercase">
-                  Custom Builds / request
-                </span>
-                <h1 className="text-h2 text-balance text-paper md:text-display-md">
-                  Tell us about your custom build
-                </h1>
-                <p className="max-w-[48ch] text-base leading-relaxed text-muted md:text-lg">
-                  Tell us about your business and when you are available for a
-                  discovery call.
-                </p>
-              </div>
-
-              <dl className="hidden flex-col gap-5 lg:flex">
-                {expectations.map((item) => (
-                  <div key={item.title} className="flex flex-col gap-1.5">
-                    <dt className="text-sm font-medium text-paper">
-                      {item.title}
-                    </dt>
-                    <dd className="max-w-[46ch] text-sm leading-relaxed text-muted">
-                      {item.body}
-                    </dd>
+          <div className="grid gap-12 lg:grid-cols-2 lg:gap-24">
+            <div>
+              <p className="home-eyebrow">CUSTOM JARVIS IMPLEMENTATION</p>
+              <h1 className="mt-5 text-display-md leading-tight tracking-tight md:text-display-lg">
+                Let’s build around
+                <br />
+                <span className="text-cobalt-400">your business.</span>
+              </h1>
+              <p className="mt-6 max-w-lg text-base leading-relaxed text-muted">
+                Connect with Quentin to discuss your goals, the tools you use,
+                and the work you want your system to support.
+              </p>
+              <a
+                href={quentinContactUrl}
+                className={cn(
+                  buttonVariants({ size: "lg" }),
+                  "mt-8 h-auto max-w-full whitespace-normal py-4 text-sm",
+                )}
+              >
+                <span>DM Q for custom pricing to save money.</span>
+                <ArrowUpRightIcon aria-hidden className="size-4 shrink-0" />
+              </a>
+              <p className="mt-4 text-xs text-faint">
+                Message @qf_xcerebro on Instagram.
+              </p>
+              <Link
+                href="/products#custom-jarvis-build"
+                className="mt-8 inline-flex text-sm text-cobalt-400 underline-offset-4 hover:underline"
+              >
+                Explore the Custom Jarvis Build
+              </Link>
+            </div>
+            <div className="rounded-xl border border-line bg-ink-850 p-7 sm:p-9">
+              <h2 className="text-h3">Start with what matters.</h2>
+              <div className="mt-8 flex flex-col gap-8">
+                {details.map((detail) => (
+                  <div key={detail.title} className="flex gap-4">
+                    <CheckIcon
+                      aria-hidden
+                      className="mt-1 size-4 shrink-0 text-cobalt-400"
+                    />
+                    <div>
+                      <h3 className="text-base font-medium">{detail.title}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-muted">
+                        {detail.body}
+                      </p>
+                    </div>
                   </div>
                 ))}
-              </dl>
-            </div>
-
-            <div className="min-w-0 rounded-lg border border-line bg-ink-900 p-5 sm:p-6 md:p-8">
-              <BuildForm />
+              </div>
+              <p className="mt-9 border-t border-line pt-6 text-xs leading-relaxed text-faint">
+                Custom projects are priced according to the agreed scope. Review
+                the included work, fees, and{" "}
+                <Link
+                  href="/terms"
+                  className="text-cobalt-400 underline underline-offset-4"
+                >
+                  Terms and Conditions
+                </Link>{" "}
+                before purchasing.
+              </p>
             </div>
           </div>
         </Container>
       </main>
-
-      <footer className="hairline-t">
-        <Container width="wide" className="flex flex-wrap gap-x-6 gap-y-2 py-6">
-          <p className="font-mono text-xs text-faint">
-            © {new Date().getFullYear()} Jarvis
-          </p>
-          <Link
-            href={site.privacyPolicyUrl}
-            className="font-mono text-xs text-faint hover:text-muted"
-          >
-            Privacy Policy
-          </Link>
-          <Link
-            href={site.termsUrl}
-            className="font-mono text-xs text-faint hover:text-muted"
-          >
-            Terms and Conditions
-          </Link>
-        </Container>
-      </footer>
-    </div>
+      <Footer />
+    </>
   );
 }

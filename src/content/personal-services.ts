@@ -7,7 +7,8 @@ import {
 
 export type ServiceCheckout = {
   price: string;
-  href: `https://buy.stripe.com/${string}`;
+  /** Verified public checkout destination from the site's payment content. */
+  href: string;
   billing: string;
 };
 
@@ -55,9 +56,10 @@ export const personalServices = [
     description:
       "Connect your DealMachine API access to your Jarvis account, with lead routing and marketing workflows tailored to your business.",
     includes: [
-      "Connect your DealMachine API access and Jarvis account",
-      "Route leads around your business process",
-      "Tailor marketing workflows to your follow-up needs",
+      "Connect your existing DealMachine API access to your Jarvis account",
+      "Route incoming leads into the Jarvis process your business uses",
+      "Tailor marketing workflows to the way you follow up with leads",
+      "Configure the connections and workflow requirements in your agreed integration scope",
     ],
     note: "Requires your DealMachine API access and a Jarvis account. Review the integration scope and any separate provider charges before purchasing.",
   },
@@ -75,10 +77,11 @@ export const personalServices = [
     includes: [
       "12 recorded, one-on-one Zoom sessions with Quentin Flores",
       "One year of direct access to Quentin about your real estate business",
+      "Guidance focused on your wholesale real estate business and related investing topics",
       "Lifetime VIP access to REI Cheat Codes and AI Cheat Codes on Skool",
       "Exclusive early news and updates",
     ],
-    note: "One year of direct support, with lifetime VIP access to both Skool programs.",
+    note: "This personal coaching package is separate from Premium plan mentorship and the two sessions included with private onboarding.",
   },
   {
     id: "custom-jarvis-build",
@@ -95,8 +98,9 @@ export const personalServices = [
       "CRM implementation tailored to your business",
       "Configuration around your goals and operational needs",
       "Pipelines and workflows shaped around your process",
+      "Automations configured within your agreed implementation scope",
     ],
-    note: "Review your implementation scope before purchasing. CRM subscriptions, usage, and third-party services are separate unless expressly included in your order.",
+    note: "Your agreed scope defines the build. Larger implementations can be quoted separately. CRM subscriptions, usage, and third-party services are separate unless expressly included in your order.",
   },
   {
     id: "custom-ai-agent",
@@ -112,6 +116,7 @@ export const personalServices = [
       "Custom agent training for your business",
       "A role tailored to wholesaling and real estate investing",
       "Configuration around your processes and needs",
+      "A defined implementation scope for the agent you are building",
     ],
     note: "Review the agreed agent scope and ongoing service costs before purchasing. The custom build does not imply that all ongoing platform or usage charges are included.",
   },

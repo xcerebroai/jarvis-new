@@ -9,8 +9,8 @@ export const site = {
   privacyPolicyUrl: "/privacy",
   termsUrl: "/terms",
   cta: {
-    primary: { label: "Build My System", href: "/checkout" },
-    customBuild: { label: "Build My System", href: "/custom-build-request" },
+    primary: { label: "Explore plans", href: "/pricing" },
+    customBuild: { label: "Discuss your build", href: "/custom-build-request" },
     secondary: { label: "See How It Works", href: "/#how-it-works" },
   },
 } as const;

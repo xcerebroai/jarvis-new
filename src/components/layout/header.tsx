@@ -1,65 +1,42 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { site } from "@/content/site";
-import { cn } from "@/lib/cn";
 
 import { Logo } from "./logo";
-import { MegaMenu } from "./mega-menu";
 import { MobileNav } from "./mobile-nav";
 
+const links = [
+  { label: "Features", href: "/#crm-features" },
+  { label: "Plans", href: "/pricing" },
+  { label: "Products & Services", href: "/products" },
+  { label: "Resources", href: "/resources" },
+];
+
 export function Header() {
-  const pathname = usePathname();
-  const isCustomBuild =
-    pathname.startsWith("/services/custom-builds") ||
-    pathname.startsWith("/platform/custom");
-  const primaryCta = isCustomBuild ? site.cta.customBuild : site.cta.primary;
-  const [condensed, setCondensed] = useState(false);
-  // A panel hanging off a see-through bar reads as a bug, so an open menu
-  // makes the header solid regardless of scroll position.
-  const [menuOpen, setMenuOpen] = useState(false);
-  const solid = condensed || menuOpen;
-
-  useEffect(() => {
-    const onScroll = () => setCondensed(window.scrollY > 16);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-40 transition-[height,background-color,border-color] duration-200 ease-standard",
-        condensed ? "h-15" : "h-18",
-        solid
-          ? "border-b border-line bg-ink-950/95 backdrop-blur-md"
-          : "border-b border-transparent bg-transparent",
-      )}
-    >
-      {/* Once docked, the underline carries signal — the bar reads as part of
-          the running system rather than as a floating navigation strip. */}
-      <span
-        aria-hidden
-        className={cn(
-          "neon-hairline pointer-events-none absolute inset-x-0 -bottom-px h-px transition-opacity duration-300 ease-standard",
-          solid ? "opacity-100" : "opacity-0",
-        )}
-      />
-
-      <Container width="wide" className="flex h-full items-center gap-4">
-        <Logo className="shrink-0" />
-
-        <div className="flex-1">
-          <MegaMenu onOpenChange={setMenuOpen} primaryCta={primaryCta} />
-        </div>
-
-        <div className="hidden items-center gap-2 xl:flex">
+    <header className="sticky top-0 z-40 border-b border-line bg-ink-950/95 backdrop-blur-xl">
+      <Container
+        width="wide"
+        className="flex h-18 items-center justify-between gap-6 md:h-20"
+      >
+        <Logo animated={false} className="shrink-0" />
+        <nav
+          aria-label="Main navigation"
+          className="hidden items-center gap-8 xl:flex"
+        >
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-xs font-medium text-muted transition-colors hover:text-paper"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <div className="ml-auto hidden items-center gap-3 xl:flex">
           <Link
             href={site.appUrl}
             className={buttonVariants({ variant: "ghost", size: "md" })}
@@ -67,14 +44,13 @@ export function Header() {
             Sign in
           </Link>
           <Link
-            href={primaryCta.href}
+            href="/pricing"
             className={buttonVariants({ variant: "primary", size: "md" })}
           >
-            {primaryCta.label}
+            Explore plans
           </Link>
         </div>
-
-        <MobileNav primaryCta={primaryCta} />
+        <MobileNav />
       </Container>
     </header>
   );

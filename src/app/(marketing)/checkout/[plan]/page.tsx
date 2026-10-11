@@ -1,10 +1,11 @@
-import { ArrowRightIcon, CheckIcon, LockKeyholeIcon } from "lucide-react";
+import { CheckIcon, LockKeyholeIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { PageHero } from "@/components/layout/page-hero";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import { ServicePurchase } from "@/components/marketing/service-purchase";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import {
@@ -146,34 +147,20 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
                 Jarvis CRM
               </span>
               <h2 className="font-display text-h3 text-paper">{plan.name}</h2>
-              <p className="flex flex-wrap items-baseline gap-2">
-                <span className="type-metric text-display-md text-paper">
-                  {plan.price}
-                </span>
-                <span className="text-sm text-muted">{plan.cadence}</span>
-              </p>
-              <p className="text-sm leading-relaxed text-muted">
-                A recurring monthly subscription. Review the currency, taxes,
-                and total at checkout before subscribing.
-              </p>
             </div>
 
             {checkout ? (
               <div className="flex flex-col gap-3">
-                {checkout.mode === "test" ? (
-                  <p className="rounded-md border border-cobalt-500/40 bg-cobalt-glow p-3 text-sm text-paper">
-                    Test checkout. No real payment will be taken.
-                  </p>
-                ) : null}
-                <a
-                  href={checkout.href}
-                  className={buttonVariants({ size: "lg" })}
-                >
-                  {checkout.mode === "test"
-                    ? "Open test checkout"
-                    : "Continue to payment"}
-                  <ArrowRightIcon aria-hidden className="size-4" />
-                </a>
+                <ServicePurchase
+                  id={`checkout-${plan.id}`}
+                  name={`Jarvis CRM ${plan.name}`}
+                  checkout={{
+                    href: checkout.href,
+                    price: `${plan.price}/month`,
+                    billing:
+                      "Monthly subscription in USD. Renews until canceled. Final amount shown at checkout. Communications usage and separately scoped services may cost extra.",
+                  }}
+                />
                 <p className="flex items-center justify-center gap-2 text-xs text-faint">
                   <LockKeyholeIcon aria-hidden className="size-3.5" />
                   Hosted payment checkout
