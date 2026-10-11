@@ -77,7 +77,7 @@ export function PricingComparison() {
           <EliteAiRoles className="sm:grid-cols-2" />
         </div>
 
-        <div className="overflow-x-auto rounded-lg border border-line">
+        <div className="relative overflow-x-auto rounded-lg border border-line">
           <table className="w-full min-w-[46rem] border-collapse text-left">
             <caption className="sr-only">
               Jarvis plan comparison: features included in Standard, Elite, and
