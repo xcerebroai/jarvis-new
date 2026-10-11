@@ -51,7 +51,7 @@ export function Footer() {
             </nav>
           ))}
         </div>
-        <div className="hairline-t mt-12 flex flex-col gap-4 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="jarvis-footer-bottom hairline-t mt-12 flex flex-col gap-4 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[11px] text-faint">
             © {new Date().getFullYear()} Jarvis. Built around your business.
           </p>

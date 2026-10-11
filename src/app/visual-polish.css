@@ -1,4 +1,35 @@
 /* A consistent blue and silver display language, with quiet, readable body type. */
+.jarvis-home .home-capability-strip > p {
+  margin: 0;
+  width: auto;
+}
+.jarvis-footer .jarvis-footer-bottom {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.jarvis-footer .jarvis-footer-bottom > p {
+  margin: 0;
+  text-align: left;
+  width: auto;
+}
+.jarvis-footer .jarvis-footer-bottom > nav {
+  flex-shrink: 0;
+}
+@media (min-width: 851px) {
+  .jarvis-home .home-capability-strip {
+    display: grid;
+    grid-template-columns: 170px repeat(3, auto) 32px;
+  }
+}
+@media (max-width: 639px) {
+  .jarvis-footer .jarvis-footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 .jarvis-wordmark,
 :is(#jarvis-ghl, html) main h1,
 .home-hero h1,
