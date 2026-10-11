@@ -164,10 +164,10 @@ export const footerColumns: FooterColumn[] = [
   {
     title: "Resources",
     links: [
-      { label: "Documentation", href: "/resources/docs" },
+      { label: "Jarvis guides", href: "/resources/docs" },
       { label: "Implementation guide", href: "/resources/implementation" },
-      { label: "Changelog", href: "/resources/changelog" },
-      { label: "System status", href: "/status" },
+      { label: "Product information", href: "/resources/changelog" },
+      { label: "Account support", href: "/status" },
     ],
   },
   {

@@ -10,28 +10,28 @@ import { Section } from "@/components/ui/section";
 export const metadata: Metadata = {
   title: "Resources",
   description:
-    "Documentation, implementation guidance, changelog, and system status for Jarvis.",
+    "Find Jarvis product guides, implementation information, and account support.",
 };
 
 const resources = [
   {
-    title: "Documentation",
-    body: "Reference for pipelines, workflows, agent configuration, and integrations.",
+    title: "Jarvis guides",
+    body: "Find your workspace, compare plans, and explore onboarding and product information.",
     href: "/resources/docs",
   },
   {
     title: "Implementation guide",
-    body: "What happens during mapping, build, connect, and go-live and what we need from you.",
+    body: "Prepare your goals, workflows, and tools for a conversation about your project scope.",
     href: "/resources/implementation",
   },
   {
-    title: "Changelog",
-    body: "What shipped, when, and what it changes for systems already running.",
+    title: "Product information",
+    body: "Explore available services and ask about the features or changes your business needs.",
     href: "/resources/changelog",
   },
   {
-    title: "System status",
-    body: "Current uptime and incident history across the platform.",
+    title: "Account and service support",
+    body: "Open your workspace or contact Quentin about a question or issue with your Jarvis setup.",
     href: "/status",
   },
 ];
