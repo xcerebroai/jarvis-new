@@ -14,8 +14,26 @@ export function AgentRobot({ role, className = "" }: AgentRobotProps) {
   const wide = role === "atlas";
   const square = role === "alex";
   const tall = role === "mason";
-  const headX = wide ? 64 : tall ? 79 : 72;
-  const headWidth = wide ? 112 : tall ? 88 : 104;
+  const accent = {
+    jessica: "#8bddff",
+    alex: "#86a9ff",
+    atlas: "#73c1ff",
+    mason: "#b0c7ed",
+  }[role];
+  const helmet = wide
+    ? "M91 34 108 27H141L158 38 164 69 156 94 139 110H109L91 94 85 65Z"
+    : square
+      ? "M95 32H150L160 45V83L149 103 132 111H115L96 100 87 82V46Z"
+      : tall
+        ? "M112 25H137L153 39 158 70 150 94 134 111H117L101 97 92 72 96 43Z"
+        : "M108 29H138L154 41 159 69 149 96 132 108H116L98 95 89 68 94 44Z";
+  const chest = wide
+    ? "M91 114 108 109H142L160 117 175 141 158 174 145 184H103L87 171 71 141Z"
+    : square
+      ? "M92 114H153L166 130 162 167 148 181H99L85 166 81 129Z"
+      : tall
+        ? "M102 113 124 119 146 113 157 132 151 170 137 185H110L96 169 91 132Z"
+        : "M99 115 122 111 145 115 161 129 153 156 143 181H106L94 158 85 129Z";
 
   return (
     <svg
@@ -36,10 +54,10 @@ export function AgentRobot({ role, className = "" }: AgentRobotProps) {
           y2="190"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#f2fcff" />
-          <stop offset=".35" stopColor="#b7d6e3" />
-          <stop offset=".62" stopColor="#edf8fd" />
-          <stop offset="1" stopColor="#5f8295" />
+          <stop stopColor="#f4f9ff" />
+          <stop offset=".35" stopColor="#638298" />
+          <stop offset=".62" stopColor="#d0dfeb" />
+          <stop offset="1" stopColor="#263d52" />
         </linearGradient>
         <linearGradient
           id={`${id}-steel`}
@@ -49,10 +67,10 @@ export function AgentRobot({ role, className = "" }: AgentRobotProps) {
           y2="209"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#536f83" />
-          <stop offset=".45" stopColor="#172936" />
-          <stop offset=".72" stopColor="#334f61" />
-          <stop offset="1" stopColor="#0a1621" />
+          <stop stopColor="#7892aa" />
+          <stop offset=".45" stopColor="#142333" />
+          <stop offset=".72" stopColor="#3a526b" />
+          <stop offset="1" stopColor="#07121d" />
         </linearGradient>
         <linearGradient
           id={`${id}-visor`}
@@ -72,22 +90,22 @@ export function AgentRobot({ role, className = "" }: AgentRobotProps) {
           <stop offset="1" stopColor="#2e718c" stopOpacity=".3" />
         </linearGradient>
         <radialGradient id={`${id}-halo`}>
-          <stop stopColor="var(--robot-accent)" stopOpacity=".15" />
-          <stop offset="1" stopColor="var(--robot-accent)" stopOpacity="0" />
+          <stop stopColor={accent} stopOpacity=".15" />
+          <stop offset="1" stopColor={accent} stopOpacity="0" />
         </radialGradient>
       </defs>
 
       <ellipse cx="129" cy="126" rx="119" ry="106" fill={paint("halo")} />
       <path
         d="M38 133a91 91 0 0 1 175-24M204 174a91 91 0 0 1-149 16"
-        stroke="var(--robot-accent)"
+        stroke={accent}
         strokeOpacity=".17"
         strokeDasharray="3 7"
       />
-      <circle cx="41" cy="118" r="2" fill="var(--robot-accent)" opacity=".65" />
+      <circle cx="41" cy="118" r="2" fill={accent} opacity=".65" />
       <path
         d="M213 47v8m-4-4h8M43 180v6m-3-3h6"
-        stroke="var(--robot-accent)"
+        stroke={accent}
         strokeOpacity=".65"
         strokeLinecap="round"
       />
@@ -105,294 +123,246 @@ export function AgentRobot({ role, className = "" }: AgentRobotProps) {
         cy="218"
         rx="48"
         ry="5"
-        stroke="var(--robot-accent)"
+        stroke={accent}
         strokeOpacity=".22"
       />
 
       <g className="agent-robot__body">
-        {/* Flexible neck, hip joints, and oversized magnetic boots. */}
-        <rect
-          x="110"
-          y="114"
-          width="27"
-          height="22"
-          rx="9"
+        {/* A compact exoskeleton, layered armor and exposed mechanical joints. */}
+        <path
+          d="M113 101h22l6 19-17 9-18-9Z"
           fill={paint("steel")}
-          stroke="#7294a7"
-        />
-        <path d="M114 120h19m-19 5h19" stroke="#7495a9" strokeWidth="2" />
-        <path
-          d="M102 178l-2 25m43-25 4 25"
-          stroke="#152936"
-          strokeWidth="15"
-          strokeLinecap="round"
+          stroke="#638199"
         />
         <path
-          d="M100 187v10m46-10 1 10"
-          stroke="#b0d0df"
-          strokeWidth="7"
-          strokeLinecap="round"
-        />
-        <path
-          d="M84 201q13-6 28 0l2 10q-17 7-34 0zM135 201q13-6 26 0l6 10q-17 7-33 0z"
-          fill={paint("pearl")}
-          stroke="#506f82"
+          d="M115 107h18m-20 6h22m-18 6h14"
+          stroke="#9baebf"
           strokeWidth="1.5"
         />
         <path
-          d="M84 210h26m29 0h23"
-          stroke="var(--robot-accent)"
-          strokeWidth="2"
-          strokeLinecap="round"
+          d="M106 166h35l13 22-14 10h-32l-13-10Z"
+          fill={paint("steel")}
+          stroke="#405970"
         />
+        <path
+          d="M103 180 115 185 112 206 101 209 95 198ZM137 184l13-5 8 19-8 12-12-6Z"
+          fill={paint("pearl")}
+          stroke="#435e75"
+        />
+        <path
+          d="m103 184 8 3-3 14-8 1ZM141 187l7-4 6 17-11 1Z"
+          fill="#132b40"
+        />
+        <path
+          d="M97 203h16l3 13-7 5H83l-1-7ZM137 203h18l13 11-1 7h-28l-5-6Z"
+          fill={paint("steel")}
+          stroke="#6d8ba3"
+        />
+        <path
+          d="m96 207 14 1 1 6H88ZM141 208l13-1 8 7h-23Z"
+          fill={paint("pearl")}
+        />
+        <path d="M87 218h23m30 0h23" stroke={accent} strokeWidth="1.6" />
 
-        {square ? (
+        {/* The stance stays open; every role carries a different shoulder profile. */}
+        <path
+          d="m86 128-13 17-5 29 11 9 13-8 6-32ZM156 131l17 10 18 22-8 15-15-7-17-26Z"
+          fill="#101d2c"
+          stroke="#426077"
+        />
+        <path
+          d="m76 145 9 5-5 18-10-2ZM174 144l11 16-7 9-10-18Z"
+          fill={paint("pearl")}
+          stroke="#6c899f"
+        />
+        <path
+          d="m68 172 11-3 8 9-3 11-10 4-9-9ZM178 164l10-5 10 9-2 10-10 5-10-9Z"
+          fill={paint("steel")}
+          stroke="#90a9bc"
+        />
+        <path
+          d="m71 179 7-3 4 4m99-11 6-4 6 4"
+          stroke={accent}
+          strokeWidth="1.5"
+        />
+        <path
+          d={
+            wide
+              ? "M91 115 79 110 59 128 66 149 88 143 101 126ZM153 114l17-4 19 16-6 22-25-8-12-16Z"
+              : square
+                ? "M94 114H78l-14 18 8 15 22-4 10-17ZM152 114h19l14 16-7 17-24-6-10-15Z"
+                : tall
+                  ? "M102 115 87 111 72 129 76 141l20-3 11-14ZM145 115l15-4 17 17-2 14-22-4-10-15Z"
+                  : "M100 115 81 112 67 130l7 15 21-7 12-13ZM146 115l18-3 17 16-7 17-19-8-12-13Z"
+          }
+          fill={paint("pearl")}
+          stroke="#6c879c"
+          strokeWidth="1.2"
+        />
+        <path
+          d="m79 120-8 10 4 8 13-4m75-14 10 9-3 9-12-4"
+          fill="#1c3348"
+          stroke="#4f738e"
+        />
+        <path
+          d={chest}
+          fill={paint("steel")}
+          stroke="#70899f"
+          strokeWidth="1.2"
+        />
+        <path
+          d="m97 120 25 9-6 17-24-9-4-8ZM127 129l24-9 10 10-6 11-21 5Z"
+          fill={paint("pearl")}
+          stroke="#8ea7ba"
+        />
+        <path
+          d="m97 124 17 6-2 6-14-5ZM136 130l14-5 5 6-17 6Z"
+          fill="#37546e"
+        />
+        <path
+          d="m94 142 22 10-4 16-12-6ZM134 152l21-10-5 22-12 5Z"
+          fill={paint("pearl")}
+          stroke="#4e6c84"
+        />
+        <path
+          d="m114 148 10-9 10 9-4 23h-12Z"
+          fill="#071727"
+          stroke="#7093ac"
+        />
+        <path d="m120 150 4-4 4 4-2 15h-4Z" fill={accent} />
+        <path d="M107 172h35l-5 7h-25Z" fill="#405c73" stroke="#86a0b6" />
+        <path d="M115 175h17" stroke={accent} strokeWidth="1.4" />
+        <path
+          d="m91 134 9 5m-7 6 6 3m52-11 7-4m-8 12 6-3"
+          stroke="#c9e3f5"
+          strokeOpacity=".7"
+        />
+        {wide && (
           <path
-            d="M92 128h62q10 0 10 11v40q0 11-11 11H94q-11 0-11-11v-38q0-13 9-13Z"
-            fill={paint("pearl")}
-            stroke="#628295"
-            strokeWidth="1.5"
+            d="m79 124-9 5 4 10 10-3m80-12 13 5-4 10-11-3"
+            stroke={accent}
+            strokeWidth="1.6"
           />
-        ) : wide ? (
+        )}
+        {square && (
           <path
-            d="M94 126h58l22 19-12 38q-38 18-76-1l-12-36Z"
-            fill={paint("pearl")}
-            stroke="#628295"
-            strokeWidth="1.5"
-          />
-        ) : tall ? (
-          <path
-            d="M97 129q26-9 51 0l8 55q-31 16-64 0Z"
-            fill={paint("pearl")}
-            stroke="#628295"
-            strokeWidth="1.5"
-          />
-        ) : (
-          <path
-            d="M94 132q30-17 59 0l10 30q8 30-39 31-48-1-40-31Z"
-            fill={paint("pearl")}
-            stroke="#628295"
+            d="M99 151h6m-6 5h6m38-5h6m-6 5h6"
+            stroke={accent}
             strokeWidth="1.5"
           />
         )}
-        <path
-          d="M96 133q27-10 55 0"
-          stroke="#f1fdff"
-          strokeOpacity=".8"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <rect
-          x="101"
-          y="145"
-          width="46"
-          height="30"
-          rx={square ? 6 : 13}
-          fill={paint("steel")}
-          stroke="#6a8ea3"
-        />
-        <path
-          d="M111 158h6l4-6 6 14 5-8h6"
-          stroke="var(--robot-accent)"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle cx="114" cy="181" r="2" fill="var(--robot-accent)" />
-        <path
-          d="M121 181h13"
-          stroke="#557486"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-
-        {/* Articulated arms, with role-specific tools above the hands. */}
-        <path
-          d={
-            role === "jessica"
-              ? "M88 143Q67 144 66 167"
-              : "M87 145Q66 153 72 179"
-          }
-          stroke={paint("steel")}
-          strokeWidth="13"
-          strokeLinecap="round"
-        />
-        <circle cx="83" cy="145" r="9" fill={paint("pearl")} stroke="#628295" />
-        <path
-          d={tall ? "M153 145q23 5 29 26" : "M158 145q20 2 27 19"}
-          stroke={paint("steel")}
-          strokeWidth="13"
-          strokeLinecap="round"
-        />
-        <circle
-          cx="158"
-          cy="145"
-          r="9"
-          fill={paint("pearl")}
-          stroke="#628295"
-        />
-        <circle
-          cx={role === "jessica" ? 66 : 72}
-          cy={role === "jessica" ? 167 : 179}
-          r="9"
-          fill={paint("pearl")}
-          stroke="#628295"
-        />
-        <circle
-          cx={tall ? 182 : 185}
-          cy={tall ? 171 : 164}
-          r="9"
-          fill={paint("pearl")}
-          stroke="#628295"
-        />
+        {tall && (
+          <path
+            d="m104 115 7 17 13-7 12 7 8-17"
+            stroke="#c5dbe9"
+            strokeWidth="1.5"
+          />
+        )}
 
         <g className="agent-robot__head">
           <path
-            d="M124 53V38"
-            stroke="#738c9e"
-            strokeWidth="4"
-            strokeLinecap="round"
-          />
-          <circle cx="124" cy="35" r="5" fill="var(--robot-accent)" />
-          <circle cx="122.5" cy="33.5" r="1.5" fill="#efffff" />
-          <rect
-            x={headX - 7}
-            y="79"
-            width="15"
-            height="26"
-            rx="7"
+            d="M91 53 84 58v24l10 8m62-37 8 5v24l-10 8"
             fill={paint("steel")}
-            stroke="#708fa2"
+            stroke="#7690a4"
           />
-          <rect
-            x={headX + headWidth - 8}
-            y="79"
-            width="15"
-            height="26"
-            rx="7"
-            fill={paint("steel")}
-            stroke="#708fa2"
-          />
-          <rect
-            x={headX}
-            y="53"
-            width={headWidth}
-            height="72"
-            rx={square ? 19 : tall ? 31 : 29}
+          <path
+            d={helmet}
             fill={paint("pearl")}
-            stroke="#7292a6"
-            strokeWidth="1.5"
+            stroke="#8aa1b6"
+            strokeWidth="1.2"
+          />
+          <path d="m111 32 12-5 13 5 6 23-18 10-19-11Z" fill={paint("steel")} />
+          <path d="m123 31-3 20 4 7 4-7-3-20Z" fill="#d5e5f0" />
+          <path
+            d="m98 43 9-6-6 18-7 9ZM142 37l8 8 4 19-8-9Z"
+            fill="#e1edf4"
+            fillOpacity=".82"
           />
           <path
-            d={`M${headX + 17} 61q${headWidth / 2 - 17} -8 ${headWidth - 34} 0`}
-            stroke="#f4feff"
-            strokeWidth="2"
-            strokeLinecap="round"
-            opacity=".8"
-          />
-          <rect
-            x={headX + 9}
-            y="71"
-            width={headWidth - 18}
-            height="40"
-            rx="19"
+            d="m97 56 26 10 27-10 6 15-8 18-24 10-25-11-8-18Z"
             fill={paint("visor")}
-            stroke="#436a80"
-            strokeWidth="2"
+            stroke="#526f87"
           />
-          <circle
-            cx="103"
-            cy="91"
-            r="17"
-            fill={paint("lens")}
-            stroke="var(--robot-accent)"
-            strokeWidth="2"
-          />
-          <circle
-            cx="145"
-            cy="91"
-            r="17"
-            fill={paint("lens")}
-            stroke="var(--robot-accent)"
-            strokeWidth="2"
-          />
-          <path d="M120 90h8" stroke="#a8dcea" strokeWidth="3" />
           <path
-            d="M92 81q6-6 11-5M134 81q6-6 11-5"
-            stroke="#ecffff"
-            strokeWidth="2"
-            strokeLinecap="round"
-            opacity=".62"
+            d="m95 61 22 8-1 6-20-6ZM131 69l22-8-1 8-20 6Z"
+            fill="#8aadc8"
           />
-          <g className="agent-robot__eyes" fill="#c9faff">
-            <rect x="101" y="87" width="5" height="9" rx="2.5" />
-            <rect x="143" y="87" width="5" height="9" rx="2.5" />
+          <g className="agent-robot__eyes">
+            <path
+              d="m97 72 20 4-3 5-13-3ZM131 76l20-4-4 6-13 3Z"
+              fill={accent}
+            />
+            <path
+              d="m100 73 14 3m21 0 13-3"
+              stroke="#edfaff"
+              strokeWidth="1.3"
+            />
           </g>
           <path
-            d="M117 114q7 5 14 0"
-            stroke="#3e6e87"
-            strokeWidth="2"
-            strokeLinecap="round"
+            d="m123 70-6 16 7 6 7-6-6-16"
+            fill={paint("pearl")}
+            stroke="#54748e"
           />
           <path
-            d="M85 115h6m65 0h6"
-            stroke="var(--robot-accent)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            opacity=".8"
+            d="m97 79 10 5 4 13-10-6-7-14ZM151 79l-10 5-5 13 10-6 8-14Z"
+            fill={paint("pearl")}
+          />
+          <path
+            d="m110 93 14 5 13-5-3 11-10 5-11-5Z"
+            fill={paint("steel")}
+            stroke="#708b9f"
+          />
+          <path d="M117 100h14m-12 3h10" stroke="#a9c4d8" strokeWidth="1" />
+          <path
+            d="m99 88 6 3m-4 1 5 3m40-7-6 3m4 1-5 3"
+            stroke="#1e425e"
+            strokeWidth="1.3"
+          />
+          <path
+            d="m96 47-4 16m62-15 3 15"
+            stroke={accent}
+            strokeOpacity=".8"
+            strokeWidth="1.5"
           />
           {role === "jessica" && (
             <g>
+              <path d="M86 72V53l13-19 11-5" stroke="#1b3044" strokeWidth="5" />
               <path
-                d="M68 91V79q0-30 28-34"
-                stroke="#253f51"
-                strokeWidth="5"
-                strokeLinecap="round"
+                d="M86 72V53l13-19 11-5"
+                stroke="#9db8ce"
+                strokeWidth="1.5"
               />
-              <rect
-                x="62"
-                y="84"
-                width="12"
-                height="23"
-                rx="6"
-                fill="var(--robot-accent)"
+              <path
+                d="m81 59 10-3 3 23-9 6-6-7Z"
+                fill={paint("steel")}
+                stroke={accent}
               />
-              <path d="M68 104q-1 16 23 19" stroke="#527a90" strokeWidth="3" />
-              <rect
-                x="88"
-                y="119"
-                width="15"
-                height="7"
-                rx="3.5"
-                fill="#152c3c"
-                stroke="var(--robot-accent)"
-              />
+              <path d="m85 81 6 17 17 4" stroke="#87a6bd" strokeWidth="2.5" />
+              <path d="m106 99 10 1 1 5-11-1Z" fill="#10273c" stroke={accent} />
             </g>
           )}
           {role === "alex" && (
             <path
-              d="M81 57l6-9h15M154 55l9 8"
-              stroke="var(--robot-accent)"
-              strokeWidth="4"
-              strokeLinecap="round"
+              d="M95 36h14m27 0h14M94 42h10m40 0h10"
+              stroke="#d0e1ef"
+              strokeWidth="1.3"
             />
           )}
           {role === "atlas" && (
             <g>
-              <path d="M68 68 55 61" stroke="#7c9dad" strokeWidth="3" />
               <path
-                d="M48 53q-7 13 8 19Z"
-                fill={paint("pearl")}
-                stroke="#77bcd2"
+                d="m88 48-12-9-7 3 6 13 12 3"
+                fill={paint("steel")}
+                stroke="#86a6bf"
               />
-              <circle cx="58" cy="58" r="3" fill="var(--robot-accent)" />
+              <path d="m76 44 5 9" stroke={accent} strokeWidth="2" />
             </g>
           )}
           {role === "mason" && (
             <path
-              d="M96 57q26-17 54 0l-3 8q-23-7-48 0Z"
+              d="m112 27 12-8 13 8-3 9-10-6-10 6Z"
               fill={paint("steel")}
-              stroke="#6f91a5"
+              stroke="#88a6bd"
             />
           )}
         </g>
@@ -403,7 +373,7 @@ export function AgentRobot({ role, className = "" }: AgentRobotProps) {
           <path
             d="M183 51h45q9 0 9 9v22q0 9-9 9h-25l-14 10 2-10h-8q-9 0-9-9V60q0-9 9-9Z"
             fill="#102936"
-            stroke="var(--robot-accent)"
+            stroke={accent}
             strokeOpacity=".8"
           />
           {[190, 205, 220].map((x, i) => (
@@ -413,12 +383,12 @@ export function AgentRobot({ role, className = "" }: AgentRobotProps) {
               cx={x}
               cy="72"
               r="3"
-              fill="var(--robot-accent)"
+              fill={accent}
             />
           ))}
           <path
             d="M30 136h23m-18 7h14"
-            stroke="var(--robot-accent)"
+            stroke={accent}
             strokeWidth="2"
             strokeLinecap="round"
             opacity=".45"
@@ -445,12 +415,12 @@ export function AgentRobot({ role, className = "" }: AgentRobotProps) {
                 height="17"
                 rx="5"
                 fill="#1b3648"
-                stroke="var(--robot-accent)"
+                stroke={accent}
                 strokeOpacity=".45"
               />
               <path
                 d={`M188 ${127 + n * 23}l3 3 5-6`}
-                stroke="var(--robot-accent)"
+                stroke={accent}
                 strokeWidth="1.8"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -465,7 +435,7 @@ export function AgentRobot({ role, className = "" }: AgentRobotProps) {
           ))}
           <path
             d="M39 101h19m-13 7h13"
-            stroke="var(--robot-accent)"
+            stroke={accent}
             strokeWidth="2"
             strokeLinecap="round"
             opacity=".5"
@@ -478,12 +448,12 @@ export function AgentRobot({ role, className = "" }: AgentRobotProps) {
             d="m169 163 28-48 36 34-21 44Z"
             fill="#132733"
             fillOpacity=".8"
-            stroke="var(--robot-accent)"
+            stroke={accent}
             strokeOpacity=".35"
           />
           <path
             d="m186 146 16-13 17 13m-28-4v23h23v-23m-15 23v-12h8v12"
-            stroke="var(--robot-accent)"
+            stroke={accent}
             strokeWidth="1.8"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -511,22 +481,12 @@ export function AgentRobot({ role, className = "" }: AgentRobotProps) {
               cx={x}
               cy={y}
               r="3"
-              fill="var(--robot-accent)"
+              fill={accent}
               stroke="#d6fcff"
             />
           ))}
-          <circle
-            cx="41"
-            cy="147"
-            r="13"
-            stroke="var(--robot-accent)"
-            strokeOpacity=".45"
-          />
-          <path
-            d="M35 149l4-7 5 11 4-8"
-            stroke="var(--robot-accent)"
-            strokeWidth="1.5"
-          />
+          <circle cx="41" cy="147" r="13" stroke={accent} strokeOpacity=".45" />
+          <path d="M35 149l4-7 5 11 4-8" stroke={accent} strokeWidth="1.5" />
         </g>
       )}
       {role === "mason" && (
@@ -556,22 +516,16 @@ export function AgentRobot({ role, className = "" }: AgentRobotProps) {
           <g className="agent-robot__pen">
             <path
               d="m168 173 16-29 5 3-16 29-6 4Z"
-              fill="var(--robot-accent)"
+              fill={accent}
               stroke="#285069"
             />
             <path d="m167 180 6-4-5-3Z" fill="#e3f9ff" />
           </g>
           <g className="agent-robot__approval">
-            <circle
-              cx="222"
-              cy="189"
-              r="13"
-              fill="#102a32"
-              stroke="var(--robot-accent)"
-            />
+            <circle cx="222" cy="189" r="13" fill="#102a32" stroke={accent} />
             <path
               d="m216 189 4 4 8-9"
-              stroke="var(--robot-accent)"
+              stroke={accent}
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"

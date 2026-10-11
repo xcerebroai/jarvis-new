@@ -366,13 +366,19 @@ export default function HomePage() {
           </div>
           <div className="home-agent-grid">
             {agents.map((agent, index) => (
-              <article className="home-agent" key={agent.name}>
+              <article
+                className="home-agent"
+                key={agent.name}
+                data-agent-card
+                tabIndex={0}
+                aria-labelledby={`agent-${agent.id}-name`}
+              >
                 <div className="home-agent-top">
                   <span className="home-agent-number">0{index + 1}</span>
                   <span className="home-agent-status">PREMIUM AI</span>
                 </div>
                 <AgentRobot role={agent.id} />
-                <h3>{agent.name}</h3>
+                <h3 id={`agent-${agent.id}-name`}>{agent.name}</h3>
                 <p className="home-agent-role">{agent.role}</p>
                 <p>{agent.description}</p>
               </article>
