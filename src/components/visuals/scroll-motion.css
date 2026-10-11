@@ -1,16 +1,16 @@
-/* Defaults remain visible. JavaScript adds only bounded, one-shot effects. */
+/* Defaults remain visible. JavaScript adds only bounded entrance effects. */
 .jarvis-scroll-target {
-  --jarvis-scroll-rise: 18px;
+  --jarvis-scroll-rise: 26px;
   --jarvis-scroll-scale: 1;
 }
 
 .jarvis-scroll-target[data-jarvis-reveal="card"] {
-  --jarvis-scroll-rise: 24px;
-  --jarvis-scroll-scale: 0.985;
+  --jarvis-scroll-rise: 34px;
+  --jarvis-scroll-scale: 0.98;
 }
 
 .jarvis-scroll-target[data-jarvis-reveal="compact"] {
-  --jarvis-scroll-rise: 14px;
+  --jarvis-scroll-rise: 20px;
 }
 
 .jarvis-scroll-target.is-scroll-animating {
@@ -27,8 +27,8 @@
 
 @media (max-width: 640px) {
   .jarvis-scroll-target[data-jarvis-reveal="card"] {
-    --jarvis-scroll-rise: 18px;
-    --jarvis-scroll-scale: 0.992;
+    --jarvis-scroll-rise: 28px;
+    --jarvis-scroll-scale: 0.98;
   }
 }
 

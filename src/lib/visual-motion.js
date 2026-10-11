@@ -309,7 +309,7 @@ export function attachVisualMotion(root) {
   };
 }
 
-/** Progressive enhancement: no target is hidden before JavaScript runs. */
+/** Progressive enhancement: targets are visible before and between entrances. */
 function attachScrollMotion(root, isStopped) {
   const noop = { sync() {}, destroy() {} };
   if (typeof IntersectionObserver === "undefined") return noop;
@@ -335,6 +335,7 @@ function attachScrollMotion(root, isStopped) {
       ),
       delay: kind === "card" ? (index % 4) * 75 : Math.min(index, 2) * 65,
       seen: false,
+      played: false,
       animation: null,
       timer: 0,
     });
@@ -394,10 +395,10 @@ function attachScrollMotion(root, isStopped) {
   const show = (record) => {
     record.seen = true;
     settle(record);
-    observer.unobserve(record.element);
   };
   const play = (record) => {
-    if (record.seen) return;
+    // A background tab must not spend an entrance before the visitor sees it.
+    if (record.seen || document.hidden) return;
     record.seen = true;
     const element = record.element;
     if (isStopped() || element.contains(document.activeElement)) {
@@ -408,16 +409,16 @@ function attachScrollMotion(root, isStopped) {
       const styles = getComputedStyle(element);
       const rise =
         parseFloat(styles.getPropertyValue("--jarvis-scroll-rise")) ||
-        (record.kind === "card" ? 24 : 18);
+        (record.kind === "card" ? 34 : 26);
       const scale =
         parseFloat(styles.getPropertyValue("--jarvis-scroll-scale")) ||
-        (record.kind === "card" ? 0.985 : 1);
-      const duration = record.kind === "compact" ? 560 : 720;
+        (record.kind === "card" ? 0.98 : 1);
+      const duration = record.kind === "compact" ? 720 : 900;
       const frames = record.fixedPosition
-        ? [{ opacity: 0.6 }, { opacity: 1 }]
+        ? [{ opacity: 0.35 }, { opacity: 1 }]
         : [
             {
-              opacity: 0.6,
+              opacity: 0.35,
               transform: `translate3d(0, ${rise}px, 0) scale(${scale})`,
             },
             { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
@@ -426,9 +427,10 @@ function attachScrollMotion(root, isStopped) {
       record.animation = element.animate(frames, {
         duration,
         delay: record.delay,
-        easing: "cubic-bezier(.16, 1, .3, 1)",
+        easing: "cubic-bezier(.22, .7, .2, 1)",
         fill: "backwards",
       });
+      record.played = true;
       record.animation.onfinish = () => show(record);
       // Bound the effect even if an engine never dispatches its finish event.
       record.timer = setTimeout(
@@ -444,24 +446,53 @@ function attachScrollMotion(root, isStopped) {
       entries.forEach((entry) => {
         const record = records.get(entry.target);
         if (!record) return;
-        if (entry.isIntersecting) play(record);
-        else if (record.animation) show(record);
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.15)
+          play(record);
       });
     },
-    { rootMargin: "0px 0px -24px 0px", threshold: 0.08 },
+    { rootMargin: "0px 0px -80px 0px", threshold: 0.15 },
   );
+  // Rearm only after the entire card is well outside the viewport. Small
+  // finger movements at an entrance boundary cannot repeatedly trigger it.
+  const exitObserver = new IntersectionObserver(
+    (entries) => {
+      if (document.hidden) return;
+      entries.forEach((entry) => {
+        const record = records.get(entry.target);
+        if (!entry.isIntersecting && record?.played) {
+          settle(record);
+          record.seen = false;
+        }
+      });
+    },
+    { rootMargin: "160px 0px", threshold: 0 },
+  );
+  let wasHidden = document.hidden;
 
   records.forEach((record) => {
     // Leave the first screen and restored scroll positions entirely stable.
-    if (record.element.getBoundingClientRect().top < viewportHeight()) {
+    if (
+      !document.hidden &&
+      record.element.getBoundingClientRect().top < viewportHeight()
+    ) {
       record.seen = true;
       return;
     }
     record.element.classList.add("jarvis-scroll-target");
     record.element.setAttribute("data-jarvis-reveal", record.kind);
     observer.observe(record.element);
+    exitObserver.observe(record.element);
   });
   const revealInteraction = (event) => {
+    // Touch scrolling over a card should not cancel its entrance. Actual
+    // controls still settle immediately; keyboard focus always takes priority.
+    if (
+      event.type === "pointerdown" &&
+      !event.target.closest?.(
+        "a[href], button, input, select, textarea, summary, [role=button]",
+      )
+    )
+      return;
     records.forEach((record) => {
       if (record.element.contains(event.target)) show(record);
     });
@@ -470,6 +501,22 @@ function attachScrollMotion(root, isStopped) {
   root.addEventListener("pointerdown", revealInteraction, { passive: true });
   return {
     sync() {
+      if (document.hidden) {
+        wasHidden = true;
+        records.forEach((record) => {
+          if (record.animation) show(record);
+        });
+        return;
+      }
+      if (wasHidden) {
+        wasHidden = false;
+        records.forEach((record) => {
+          if (!record.seen) {
+            observer.unobserve(record.element);
+            observer.observe(record.element);
+          }
+        });
+      }
       if (!isStopped()) return;
       records.forEach((record) => {
         if (
@@ -481,6 +528,7 @@ function attachScrollMotion(root, isStopped) {
     },
     destroy() {
       observer.disconnect();
+      exitObserver.disconnect();
       root.removeEventListener("focusin", revealInteraction);
       root.removeEventListener("pointerdown", revealInteraction);
       records.forEach((record) => {
