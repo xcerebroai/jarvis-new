@@ -77,9 +77,12 @@ export function MobileNav({
             <div key={panel.label} className="flex flex-col">
               {/* The heading is what carries the architecture on mobile —
                   without it the two groups read as one flat list again. */}
-              <span className="pt-6 pb-2 type-label-wide text-faint">
-                {panel.label}
-              </span>
+              <CloseLink
+                href={panel.href}
+                className="pt-6 pb-3 text-base font-medium text-cobalt-400"
+              >
+                {panel.label} overview
+              </CloseLink>
               <p className="pb-2 text-xs leading-relaxed text-faint">
                 Premium includes four AI agents. Other offers are available
                 separately.

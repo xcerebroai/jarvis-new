@@ -102,16 +102,18 @@ export const coachingNav: NavGroup[] = coachingServices.map((program) => ({
 }));
 
 /** Both header panels, in the order they appear. */
-export const navPanels: { label: string; groups: NavGroup[] }[] = [
-  {
-    label: "Products & Services",
-    groups: [
-      ...productNav.filter((group) => group.href !== "/products/jarvis-crm"),
-      ...serviceNav,
-      ...coachingNav,
-    ],
-  },
-];
+export const navPanels: { label: string; href: string; groups: NavGroup[] }[] =
+  [
+    {
+      label: "Products & Services",
+      href: "/products",
+      groups: [
+        ...productNav.filter((group) => group.href !== "/products/jarvis-crm"),
+        ...serviceNav,
+        ...coachingNav,
+      ],
+    },
+  ];
 
 /** Top-level header items rendered as plain links, after the panels. */
 export const primaryNav: NavLink[] = [
@@ -136,6 +138,7 @@ export const footerColumns: FooterColumn[] = [
   {
     title: "Services",
     links: [
+      { label: "Products & Services", href: "/products" },
       { label: brand.builds, href: "/services/custom-builds" },
       { label: "Custom pipelines", href: "/services/custom-builds#pipelines" },
       {

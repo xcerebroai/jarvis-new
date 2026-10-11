@@ -6,6 +6,7 @@ import { site } from "@/content/site";
 const routes: Array<{ path: string; priority: number }> = [
   { path: "/", priority: 1 },
   { path: "/build", priority: 0.9 },
+  { path: "/products", priority: 0.8 },
   { path: "/products/jarvis-crm", priority: 0.8 },
   { path: "/products/xcerebro-ai-agents", priority: 0.8 },
   { path: "/products/lead-scraper", priority: 0.8 },

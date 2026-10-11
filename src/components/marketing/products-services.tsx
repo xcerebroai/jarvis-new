@@ -58,13 +58,22 @@ export function ProductsServices() {
               about an optional bundle.
             </p>
           </div>
-          <Link
-            href="/pricing#bundles"
-            className="inline-flex shrink-0 items-center gap-2 self-start text-sm text-cobalt-400 hover:text-paper"
-          >
-            View CRM bundle options
-            <ArrowRightIcon aria-hidden className="size-4" />
-          </Link>
+          <div className="flex shrink-0 flex-col items-start gap-3">
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-2 text-sm text-cobalt-400 hover:text-paper"
+            >
+              Explore products &amp; services
+              <ArrowRightIcon aria-hidden className="size-4" />
+            </Link>
+            <Link
+              href="/pricing#bundles"
+              className="inline-flex items-center gap-2 text-sm text-cobalt-400 hover:text-paper"
+            >
+              View CRM bundle options
+              <ArrowRightIcon aria-hidden className="size-4" />
+            </Link>
+          </div>
         </div>
 
         <div className="grid gap-3 md:grid-cols-3">

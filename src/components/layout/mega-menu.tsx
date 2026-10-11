@@ -46,6 +46,17 @@ export function MegaMenu({
                 relying on it for a background renders over the page unbacked
                 until that transition resolves. */}
             <NavigationMenu.Content className="absolute top-0 left-0 w-full rounded-lg bg-ink-850 data-[motion=from-end]:animate-none data-[motion=from-start]:animate-none">
+              <div className="hairline-b px-8 py-4">
+                <NavigationMenu.Link asChild>
+                  <Link
+                    href={panel.href}
+                    className="inline-flex items-center gap-2 text-sm font-medium text-cobalt-400 hover:text-paper"
+                  >
+                    Explore all products &amp; services
+                    <ArrowRightIcon aria-hidden className="size-4" />
+                  </Link>
+                </NavigationMenu.Link>
+              </div>
               <PanelGroups groups={panel.groups} />
 
               <div className="hairline-t flex items-center justify-between bg-ink-900 px-8 py-4">
