@@ -108,8 +108,7 @@ export function SystemMap() {
         </div>
 
         <p className="mx-auto max-w-[58ch] text-center text-sm leading-relaxed text-muted">
-          Nothing here is all-or-nothing. Most teams start with one product and
-          connect the next once the first is carrying its weight.
+          Start with one product and add connections as your needs grow.
         </p>
       </Container>
     </Section>

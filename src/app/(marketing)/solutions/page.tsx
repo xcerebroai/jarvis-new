@@ -47,16 +47,16 @@ const solutions = [
       "Agents work in their own tools, so the brokerage has no reliable view of the pipeline.",
     approach:
       "Shared pipelines with per-agent permissions give visibility without taking away how each agent works.",
-    pillars: ["Core", "Custom"],
+    pillars: ["Jarvis CRM", "Custom Builds"],
   },
   {
     id: "agencies",
     name: "Agencies",
     problem:
-      "Client reporting is assembled by hand from six platforms every month.",
+      "Client reporting can require gathering information across multiple tools.",
     approach:
       "Organize supported communication and reporting data in dashboards configured around the client’s available records.",
-    pillars: ["Core", "Custom"],
+    pillars: ["Jarvis CRM", "Custom Builds"],
   },
 ];
 

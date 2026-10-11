@@ -43,8 +43,8 @@ export default function ContactPage() {
     <>
       <PageHero
         eyebrow="Contact"
-        title="Talk to the people who build it"
-        description="There is no call-centre layer here. Whoever replies has scoped builds like yours."
+        title="Find your next step with Jarvis"
+        description="Explore CRM plans and services, find account guidance, or discuss a custom build."
       />
 
       <Section tone="alt">

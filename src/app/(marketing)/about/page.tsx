@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const principles = [
   {
     title: "The system adapts, not you",
-    body: "If the software requires changing a process that already works, the software is wrong. Custom is a first-class part of the product, not an upsell.",
+    body: "Choose a CRM plan around your needs, then add separately priced custom implementation where your business needs it.",
   },
   {
     title: "AI with a defined scope",
@@ -23,11 +23,11 @@ const principles = [
   },
   {
     title: "One record, one truth",
-    body: "Most revenue leaks happen in the gap between tools. Consolidating the record is worth more than any single feature.",
+    body: "Bring contact details, conversations, and tasks together so your team can review the information it needs.",
   },
   {
-    title: "Accountable implementation",
-    body: "Software that replaces an operating process cannot be self-serve. Every build has a person responsible for it going live.",
+    title: "Scoped implementation",
+    body: "Custom builds are scoped around your business, goals, and requirements. Timing and responsibilities are agreed as part of that scope.",
   },
 ];
 

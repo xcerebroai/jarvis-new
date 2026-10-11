@@ -13,7 +13,7 @@ type CtaBandProps = {
 
 export function CtaBand({
   title = site.line,
-  description = "Tell us how your business sells. We map it, build the system around it, and run it with you.",
+  description = "Choose a CRM plan, then add the setup, coaching, or custom work your business needs.",
   primaryCta = site.cta.primary,
 }: CtaBandProps) {
   return (

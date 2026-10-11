@@ -1,4 +1,4 @@
-import { CheckIcon, LockKeyholeIcon } from "lucide-react";
+import { CheckIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -161,10 +161,6 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
                       "Monthly subscription in USD. Renews until canceled. Final amount shown at checkout. Communications usage and separately scoped services may cost extra.",
                   }}
                 />
-                <p className="flex items-center justify-center gap-2 text-xs text-faint">
-                  <LockKeyholeIcon aria-hidden className="size-3.5" />
-                  Hosted payment checkout
-                </p>
               </div>
             ) : (
               <div className="flex flex-col gap-3">

@@ -26,13 +26,12 @@ export function MovedPage({ to, name }: { to: string; name: string }) {
   return (
     <div className="flex flex-1 items-center py-32">
       <Container className="flex flex-col items-start gap-6">
-        <span className="type-label-wide text-cobalt-400">Page moved</span>
+        <span className="type-label-wide text-cobalt-400">Jarvis</span>
         <h1 className="text-h1 md:text-display-md max-w-[20ch] text-balance text-paper">
-          {name} lives here now
+          {name}
         </h1>
         <p className="max-w-[52ch] text-lg leading-relaxed text-muted">
-          This address changed when the products were given their own names.
-          Taking you there now.
+          Continue to {name}.
         </p>
         <Link
           href={to}
