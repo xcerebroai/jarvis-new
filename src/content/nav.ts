@@ -123,6 +123,7 @@ export const primaryNav: NavLink[] = [
   { label: "Testimonials", href: "/testimonials" },
   { label: "Pricing", href: "/pricing" },
   { label: "Resources", href: "/resources" },
+  { label: "Book a call", href: "/contact/#book-call" },
 ];
 
 export type FooterColumn = {
@@ -176,6 +177,7 @@ export const footerColumns: FooterColumn[] = [
       { label: "About", href: "/about" },
       { label: "Careers", href: "/careers" },
       { label: "Contact", href: "/contact" },
+      { label: "Book a call", href: "/contact/#book-call" },
     ],
   },
 ];

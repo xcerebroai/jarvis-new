@@ -25,6 +25,10 @@ export function attachVisualMotion(root) {
   try {
     paused = sessionStorage.getItem("jarvis-motion-paused") === "true";
   } catch {}
+  const scrollMotion = attachScrollMotion(
+    root,
+    () => paused || reduced.matches || document.hidden,
+  );
   let frame = 0;
   let pointer = null;
   const clamp = (value) => Math.max(-1, Math.min(1, value));
@@ -77,6 +81,7 @@ export function attachVisualMotion(root) {
     });
   const sync = () => {
     const stopped = paused || reduced.matches;
+    scrollMotion.sync();
     root.classList.toggle("jarvis-motion-paused", stopped);
     scenes.forEach((scene) =>
       scene.classList.toggle(
@@ -289,6 +294,7 @@ export function attachVisualMotion(root) {
   document.addEventListener("visibilitychange", sync);
   sync();
   return () => {
+    scrollMotion.destroy();
     observer.disconnect();
     cancelAnimationFrame(frame);
     document.removeEventListener("pointermove", move);
@@ -300,5 +306,188 @@ export function attachVisualMotion(root) {
     fine.removeEventListener("change", pointerMode);
     robotCleanups.forEach((cleanup) => cleanup());
     toggles.forEach((button) => button.removeEventListener("click", toggle));
+  };
+}
+
+/** Progressive enhancement: no target is hidden before JavaScript runs. */
+function attachScrollMotion(root, isStopped) {
+  const noop = { sync() {}, destroy() {} };
+  if (typeof IntersectionObserver === "undefined") return noop;
+  const home = root.querySelector(".jarvis-home");
+  const records = new Map();
+  const add = (element, kind = "heading", index = 0) => {
+    if (
+      !element ||
+      records.has(element) ||
+      typeof element.animate !== "function" ||
+      element.closest("form, aside, [data-no-scroll-motion]") ||
+      element.querySelector("form, iframe, [data-no-scroll-motion]")
+    )
+      return;
+    records.set(element, {
+      element,
+      kind,
+      // Keep click/tap targets in place when an entrance is interrupted.
+      fixedPosition: Boolean(
+        element.querySelector(
+          "a[href], button, input, select, textarea, summary, [role=button]",
+        ),
+      ),
+      delay: kind === "card" ? (index % 4) * 75 : Math.min(index, 2) * 65,
+      seen: false,
+      animation: null,
+      timer: 0,
+    });
+  };
+  if (home) {
+    home
+      .querySelectorAll(".home-heading-row")
+      .forEach((element) => add(element));
+    home.querySelectorAll(".home-section-heading").forEach((element) => {
+      if (!element.closest(".home-heading-row")) add(element);
+    });
+    [
+      ".home-feature-grid > .home-feature",
+      ".home-plans > .home-plan",
+      ".home-agent-grid > .home-agent",
+      ".home-service-grid > .home-service",
+      ".home-extra-grid > .home-extra",
+      ".home-bundles > article",
+    ].forEach((selector) => {
+      home
+        .querySelectorAll(selector)
+        .forEach((element, index) => add(element, "card", index));
+    });
+    home
+      .querySelectorAll(".home-bundle-intro > div")
+      .forEach((element, index) => add(element, "heading", index));
+    home
+      .querySelectorAll(
+        ".home-pricing-note, .home-inline-note, .home-final-inner",
+      )
+      .forEach((element) => add(element, "compact"));
+  } else {
+    // Standard SectionHeader groups only, never whole purchase/booking sections.
+    root.querySelectorAll("main > section > div > div").forEach((element) => {
+      if (
+        element.children.length <= 4 &&
+        element.querySelector(":scope > h2") &&
+        !element.closest("article")
+      )
+        add(element);
+    });
+  }
+  if (!records.size) return noop;
+
+  const viewportHeight = () =>
+    window.innerHeight || document.documentElement.clientHeight;
+  const settle = (record) => {
+    clearTimeout(record.timer);
+    record.timer = 0;
+    if (record.animation) {
+      record.animation.onfinish = null;
+      record.animation.cancel();
+      record.animation = null;
+    }
+    record.element.classList.remove("is-scroll-animating");
+  };
+  const show = (record) => {
+    record.seen = true;
+    settle(record);
+    observer.unobserve(record.element);
+  };
+  const play = (record) => {
+    if (record.seen) return;
+    record.seen = true;
+    const element = record.element;
+    if (isStopped() || element.contains(document.activeElement)) {
+      show(record);
+      return;
+    }
+    try {
+      const styles = getComputedStyle(element);
+      const rise =
+        parseFloat(styles.getPropertyValue("--jarvis-scroll-rise")) ||
+        (record.kind === "card" ? 24 : 18);
+      const scale =
+        parseFloat(styles.getPropertyValue("--jarvis-scroll-scale")) ||
+        (record.kind === "card" ? 0.985 : 1);
+      const duration = record.kind === "compact" ? 560 : 720;
+      const frames = record.fixedPosition
+        ? [{ opacity: 0.6 }, { opacity: 1 }]
+        : [
+            {
+              opacity: 0.6,
+              transform: `translate3d(0, ${rise}px, 0) scale(${scale})`,
+            },
+            { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
+          ];
+      element.classList.add("is-scroll-animating");
+      record.animation = element.animate(frames, {
+        duration,
+        delay: record.delay,
+        easing: "cubic-bezier(.16, 1, .3, 1)",
+        fill: "backwards",
+      });
+      record.animation.onfinish = () => show(record);
+      // Bound the effect even if an engine never dispatches its finish event.
+      record.timer = setTimeout(
+        () => show(record),
+        duration + record.delay + 160,
+      );
+    } catch {
+      show(record);
+    }
+  };
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const record = records.get(entry.target);
+        if (!record) return;
+        if (entry.isIntersecting) play(record);
+        else if (record.animation) show(record);
+      });
+    },
+    { rootMargin: "0px 0px -24px 0px", threshold: 0.08 },
+  );
+
+  records.forEach((record) => {
+    // Leave the first screen and restored scroll positions entirely stable.
+    if (record.element.getBoundingClientRect().top < viewportHeight()) {
+      record.seen = true;
+      return;
+    }
+    record.element.classList.add("jarvis-scroll-target");
+    record.element.setAttribute("data-jarvis-reveal", record.kind);
+    observer.observe(record.element);
+  });
+  const revealInteraction = (event) => {
+    records.forEach((record) => {
+      if (record.element.contains(event.target)) show(record);
+    });
+  };
+  root.addEventListener("focusin", revealInteraction);
+  root.addEventListener("pointerdown", revealInteraction, { passive: true });
+  return {
+    sync() {
+      if (!isStopped()) return;
+      records.forEach((record) => {
+        if (
+          record.animation ||
+          record.element.getBoundingClientRect().top < viewportHeight()
+        )
+          show(record);
+      });
+    },
+    destroy() {
+      observer.disconnect();
+      root.removeEventListener("focusin", revealInteraction);
+      root.removeEventListener("pointerdown", revealInteraction);
+      records.forEach((record) => {
+        settle(record);
+        record.element.classList.remove("jarvis-scroll-target");
+        record.element.removeAttribute("data-jarvis-reveal");
+      });
+    },
   };
 }

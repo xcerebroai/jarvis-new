@@ -1,0 +1,41 @@
+/* Defaults remain visible. JavaScript adds only bounded, one-shot effects. */
+.jarvis-scroll-target {
+  --jarvis-scroll-rise: 18px;
+  --jarvis-scroll-scale: 1;
+}
+
+.jarvis-scroll-target[data-jarvis-reveal="card"] {
+  --jarvis-scroll-rise: 24px;
+  --jarvis-scroll-scale: 0.985;
+}
+
+.jarvis-scroll-target[data-jarvis-reveal="compact"] {
+  --jarvis-scroll-rise: 14px;
+}
+
+.jarvis-scroll-target.is-scroll-animating {
+  will-change: opacity, transform;
+}
+
+/* Keyboard, touch, and pause always take priority over an entrance effect. */
+.jarvis-scroll-target:focus-within,
+.jarvis-motion-paused .jarvis-scroll-target {
+  opacity: 1 !important;
+  transform: none !important;
+  will-change: auto;
+}
+
+@media (max-width: 640px) {
+  .jarvis-scroll-target[data-jarvis-reveal="card"] {
+    --jarvis-scroll-rise: 18px;
+    --jarvis-scroll-scale: 0.992;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jarvis-scroll-target {
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto;
+  }
+}

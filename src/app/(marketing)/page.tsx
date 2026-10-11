@@ -26,6 +26,7 @@ import { cn } from "@/lib/cn";
 import { JarvisCore } from "@/components/visuals/jarvis-core";
 import { AgentRobot } from "@/components/visuals/agent-robot";
 import { EliteAiRoles } from "@/components/marketing/elite-ai-roles";
+import { ConsultationCta } from "@/components/marketing/consultation-cta";
 
 export const metadata: Metadata = {
   title: "Jarvis CRM | Your leads. Your follow-up. Your next move.",
@@ -608,6 +609,8 @@ export default function HomePage() {
           </p>
         </Container>
       </section>
+
+      <ConsultationCta />
 
       <section className="home-final">
         <Container width="wide">

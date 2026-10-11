@@ -11,6 +11,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ServicePurchase } from "@/components/marketing/service-purchase";
+import { ConsultationCta } from "@/components/marketing/consultation-cta";
 import { buttonVariants } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
@@ -746,6 +747,8 @@ export default function ProductsPage() {
           </article>
         </Container>
       </Section>
+
+      <ConsultationCta />
 
       <Section
         aria-labelledby="purchase-details-title"

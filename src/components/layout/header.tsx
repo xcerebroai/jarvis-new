@@ -12,6 +12,7 @@ const links = [
   { label: "Plans", href: "/pricing" },
   { label: "Products & Services", href: "/products" },
   { label: "Resources", href: "/resources" },
+  { label: "Book a call", href: "/contact/#book-call" },
 ];
 
 export function Header() {

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { PageHero } from "@/components/layout/page-hero";
+import { InformationCall } from "@/components/marketing/information-call";
 import { buttonVariants } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
@@ -46,6 +47,8 @@ export default function ContactPage() {
         title="Find your next step with Jarvis"
         description="Explore CRM plans and services, find account guidance, or discuss a custom build."
       />
+
+      <InformationCall />
 
       <Section tone="alt">
         <Container width="wide">
