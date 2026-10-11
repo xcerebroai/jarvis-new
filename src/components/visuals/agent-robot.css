@@ -1,0 +1,216 @@
+.agent-robot {
+  --robot-accent: #83e7fa;
+  display: block;
+  width: min(100%, 260px);
+  height: auto;
+  aspect-ratio: 13 / 12;
+  overflow: visible;
+  flex: none;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.agent-robot--jessica {
+  --robot-accent: #8ce8eb;
+}
+.agent-robot--alex {
+  --robot-accent: #a4bbff;
+}
+.agent-robot--atlas {
+  --robot-accent: #8ce9ce;
+}
+.agent-robot--mason {
+  --robot-accent: #e6c997;
+}
+
+.agent-robot__body {
+  transform-box: fill-box;
+  transform-origin: 50% 90%;
+  animation: jarvis-robot-settle 5.6s ease-in-out infinite;
+}
+.agent-robot--alex .agent-robot__body {
+  animation-delay: -0.8s;
+}
+.agent-robot--atlas .agent-robot__body {
+  animation-delay: -2s;
+}
+.agent-robot--mason .agent-robot__body {
+  animation-delay: -3s;
+}
+.agent-robot__head {
+  transform-origin: 124px 119px;
+}
+.agent-robot--jessica .agent-robot__head {
+  animation: jarvis-robot-listen 6.8s ease-in-out infinite;
+}
+.agent-robot__eyes {
+  animation: jarvis-robot-gaze 8s ease-in-out infinite;
+}
+.agent-robot__chat {
+  animation: jarvis-robot-chat 5.6s ease-in-out infinite;
+}
+.agent-robot__chat-dot {
+  animation: jarvis-robot-dot 2.8s ease-in-out infinite;
+}
+.agent-robot__chat-dot--1 {
+  animation-delay: 0.25s;
+}
+.agent-robot__chat-dot--2 {
+  animation-delay: 0.5s;
+}
+.agent-robot__task {
+  animation: jarvis-robot-organize 4.8s ease-in-out infinite;
+}
+.agent-robot__task--1 {
+  animation-delay: 0.35s;
+}
+.agent-robot__task--2 {
+  animation-delay: 0.7s;
+}
+.agent-robot__scan {
+  animation: jarvis-robot-scan 4.8s ease-in-out infinite;
+}
+.agent-robot__signature {
+  stroke-dasharray: 1;
+  animation: jarvis-robot-write 6s ease-in-out infinite;
+}
+.agent-robot__pen {
+  transform-origin: 168px 177px;
+  animation: jarvis-robot-pen 6s ease-in-out infinite;
+}
+.agent-robot__approval {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: jarvis-robot-approve 6s ease-in-out infinite;
+}
+
+@keyframes jarvis-robot-settle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+@keyframes jarvis-robot-listen {
+  0%,
+  25%,
+  100% {
+    transform: rotate(0deg);
+  }
+  45%,
+  70% {
+    transform: rotate(-4deg);
+  }
+}
+@keyframes jarvis-robot-gaze {
+  0%,
+  35%,
+  100% {
+    transform: translateX(0);
+  }
+  48%,
+  65% {
+    transform: translateX(1.5px);
+  }
+}
+@keyframes jarvis-robot-chat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+@keyframes jarvis-robot-dot {
+  0%,
+  65%,
+  100% {
+    opacity: 0.45;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+@keyframes jarvis-robot-organize {
+  0%,
+  70%,
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  25% {
+    transform: translateX(3px);
+    opacity: 0.65;
+  }
+  45% {
+    transform: translateX(-1px);
+    opacity: 1;
+  }
+}
+@keyframes jarvis-robot-scan {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  45%,
+  55% {
+    transform: translateY(24px);
+    opacity: 0.8;
+  }
+}
+@keyframes jarvis-robot-write {
+  0%,
+  12% {
+    stroke-dashoffset: 1;
+  }
+  52%,
+  88% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes jarvis-robot-pen {
+  0%,
+  12%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  32% {
+    transform: translate(9px, -3px) rotate(-5deg);
+  }
+  52%,
+  88% {
+    transform: translate(20px, 0) rotate(4deg);
+  }
+}
+@keyframes jarvis-robot-approve {
+  0%,
+  45%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.94);
+  }
+  62%,
+  88% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agent-robot *,
+  .agent-robot {
+    animation: none !important;
+  }
+  .agent-robot__signature {
+    stroke-dashoffset: 0;
+  }
+}

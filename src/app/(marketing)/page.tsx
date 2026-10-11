@@ -8,14 +8,9 @@ import {
   BotIcon,
   CalendarDaysIcon,
   CheckIcon,
-  FileCheck2Icon,
   Layers3Icon,
-  ListChecksIcon,
-  MessageCircleIcon,
   MessagesSquareIcon,
   NetworkIcon,
-  ScanSearchIcon,
-  UsersRoundIcon,
   WorkflowIcon,
 } from "lucide-react";
 
@@ -28,6 +23,9 @@ import {
 } from "@/content/personal-services";
 import { coachingServices } from "@/content/products";
 import { cn } from "@/lib/cn";
+import { JarvisCore } from "@/components/visuals/jarvis-core";
+import { AgentRobot } from "@/components/visuals/agent-robot";
+import { EliteAiRoles } from "@/components/marketing/elite-ai-roles";
 
 export const metadata: Metadata = {
   title: "Jarvis CRM | Your leads. Your follow-up. Your next move.",
@@ -59,7 +57,8 @@ const planFeatures = [
     id: "elite",
     name: "Elite",
     price: "$197",
-    intro: "Add tools for outreach, disposition, and your buyer network.",
+    intro:
+      "Build stronger agent relationships. Bring the buyer side of your business into focus.",
     features: [
       "Everything in Standard",
       "Realtor Outreach AI",
@@ -118,29 +117,29 @@ const capabilities = [
 const agents = [
   {
     name: "Jessica",
+    id: "jessica" as const,
     role: "Seller conversations",
-    icon: MessageCircleIcon,
     description:
       "Seller calls, texts, and follow-up to keep the conversation moving.",
   },
   {
     name: "Alex",
+    id: "alex" as const,
     role: "CRM operations",
-    icon: ListChecksIcon,
     description:
       "Tasks, pipeline hygiene, and reporting to help keep your workspace organized.",
   },
   {
     name: "Atlas",
+    id: "atlas" as const,
     role: "Deal analysis",
-    icon: ScanSearchIcon,
     description:
       "Comparable sales and deal analysis to support your next decision.",
   },
   {
     name: "Mason",
+    id: "mason" as const,
     role: "Agreement preparation",
-    icon: FileCheck2Icon,
     description:
       "Purchase agreement preparation using the terms your team approves.",
   },
@@ -175,42 +174,6 @@ function HomeHeading({
       <p className="home-eyebrow">{label}</p>
       <h2>{title}</h2>
       {children ? <p className="home-section-copy">{children}</p> : null}
-    </div>
-  );
-}
-
-function WorkspaceArtwork() {
-  return (
-    <div
-      className="workspace-art"
-      aria-label="Jarvis connects your contacts, conversations, workflows, and reporting"
-      role="img"
-    >
-      <div className="workspace-orbit workspace-orbit-outer" />
-      <div className="workspace-orbit workspace-orbit-inner" />
-      <div className="workspace-axis workspace-axis-one" />
-      <div className="workspace-axis workspace-axis-two" />
-      <div className="workspace-core">
-        <span>J</span>
-        <span className="workspace-core-label">JARVIS</span>
-      </div>
-      <div className="workspace-node workspace-node-one">
-        <UsersRoundIcon aria-hidden />
-        <span>Contacts</span>
-      </div>
-      <div className="workspace-node workspace-node-two">
-        <MessagesSquareIcon aria-hidden />
-        <span>Conversations</span>
-      </div>
-      <div className="workspace-node workspace-node-three">
-        <WorkflowIcon aria-hidden />
-        <span>Workflows</span>
-      </div>
-      <div className="workspace-node workspace-node-four">
-        <BarChart3Icon aria-hidden />
-        <span>Reporting</span>
-      </div>
-      <span className="workspace-art-caption">YOUR BUSINESS, CONNECTED.</span>
     </div>
   );
 }
@@ -255,7 +218,7 @@ export default function HomePage() {
               business needs them.
             </p>
           </div>
-          <WorkspaceArtwork />
+          <JarvisCore />
         </Container>
         <Container width="wide">
           <div className="home-capability-strip">
@@ -359,6 +322,9 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
+                {plan.id === "elite" ? (
+                  <EliteAiRoles className="home-elite-roles" />
+                ) : null}
                 {plan.id === "premium" ? (
                   <p className="home-plan-footnote">
                     Four defined roles, working alongside your team.
@@ -384,7 +350,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      <section className="home-section">
+      <section className="home-section home-agent-stage">
         <Container width="wide">
           <div className="home-heading-row">
             <HomeHeading
@@ -403,12 +369,9 @@ export default function HomePage() {
               <article className="home-agent" key={agent.name}>
                 <div className="home-agent-top">
                   <span className="home-agent-number">0{index + 1}</span>
-                  <agent.icon
-                    aria-hidden
-                    className="size-5"
-                    strokeWidth={1.4}
-                  />
+                  <span className="home-agent-status">PREMIUM AI</span>
                 </div>
+                <AgentRobot role={agent.id} />
                 <h3>{agent.name}</h3>
                 <p className="home-agent-role">{agent.role}</p>
                 <p>{agent.description}</p>
@@ -522,7 +485,9 @@ export default function HomePage() {
               <p className="home-small-note">
                 A separate purchase from your CRM subscription.
               </p>
-              <TextLink href="/private-onboarding">Get private onboarding</TextLink>
+              <TextLink href="/private-onboarding">
+                Get private onboarding
+              </TextLink>
             </article>
             <article className="home-extra">
               <span className="home-eyebrow">LEAD SOURCING</span>

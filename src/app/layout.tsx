@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import localFont from "next/font/local";
 
 import { site } from "@/content/site";
 
 import "./globals.css";
+import "./visual-polish.css";
 
 /**
- * Three families, three jobs. All variable, so weight is a continuum rather
+ * Variable families for body, display, technical accents, and the brand.
+ * Weight is a continuum rather
  * than a set of separately downloaded files, and `next/font` self-hosts each
  * one — no external request, no layout shift on load.
  */
@@ -15,6 +18,14 @@ import "./globals.css";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const orbitron = localFont({
+  src: "../fonts/Orbitron-Variable.ttf",
+  variable: "--font-orbitron",
+  weight: "400 900",
+  style: "normal",
   display: "swap",
 });
 
@@ -57,7 +68,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${orbitron.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">{children}</body>
     </html>

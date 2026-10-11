@@ -9,22 +9,26 @@ import { Logo } from "./logo";
 
 export function Footer() {
   return (
-    <footer className="hairline-t bg-ink-950">
+    <footer className="jarvis-footer hairline-t bg-ink-950">
       <Container width="wide" className="py-14 md:py-18">
-        <div className="flex flex-col justify-between gap-8 border-b border-line pb-10 md:flex-row md:items-center">
-          <div className="flex flex-col gap-4">
+        <div className="jarvis-footer-brand border-b border-line pb-10">
+          <div className="jarvis-footer-identity">
             <Logo animated={false} className="self-start" />
             <p className="max-w-md text-sm leading-relaxed text-muted">
               Your leads. Your follow-up. Your next move.
             </p>
+            <a
+              href={quentinContactUrl}
+              className="inline-flex max-w-full items-center gap-2 text-xs leading-relaxed text-cobalt-400 hover:text-paper"
+            >
+              DM Q for custom pricing to save money.
+              <ArrowUpRightIcon aria-hidden className="size-4 shrink-0" />
+            </a>
           </div>
-          <a
-            href={quentinContactUrl}
-            className="inline-flex max-w-full items-center gap-2 text-xs leading-relaxed text-cobalt-400 hover:text-paper"
-          >
-            DM Q for custom pricing to save money.
-            <ArrowUpRightIcon aria-hidden className="size-4 shrink-0" />
-          </a>
+          <Link href="/pricing/" className="jarvis-footer-plans">
+            Explore all plans{" "}
+            <ArrowUpRightIcon aria-hidden className="size-5" />
+          </Link>
         </div>
         <div className="grid grid-cols-2 gap-x-8 gap-y-10 pt-10 md:grid-cols-3 lg:grid-cols-5">
           {footerColumns.map((column) => (
@@ -52,6 +56,14 @@ export function Footer() {
             © {new Date().getFullYear()} Jarvis. Built around your business.
           </p>
           <nav aria-label="Legal" className="flex flex-wrap gap-x-6 gap-y-2">
+            <button
+              type="button"
+              data-motion-toggle=""
+              aria-pressed="false"
+              className="jarvis-motion-toggle text-[11px] text-faint"
+            >
+              Pause motion
+            </button>
             {legalNav.map((item) => (
               <Link
                 key={item.href}

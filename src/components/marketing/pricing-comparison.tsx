@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { Fragment } from "react";
 
+import { EliteAiRoles } from "@/components/marketing/elite-ai-roles";
 import { buttonVariants } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Section, SectionHeader } from "@/components/ui/section";
@@ -13,6 +14,7 @@ import { offers } from "@/content/products";
 import { cn } from "@/lib/cn";
 
 const viewport = { once: true, margin: "-60px" } as const;
+const elitePlan = pricingPlans.find((plan) => plan.id === "elite");
 
 function Cell({ value, featured }: { value: PlanCell; featured: boolean }) {
   if (typeof value !== "boolean") {
@@ -59,6 +61,21 @@ export function PricingComparison() {
           title="What each plan carries"
           description="Premium includes four AI agents. Standalone or additional xCerebro AI Agents deployments, Lead Scraper, and Custom Builds are available separately."
         />
+
+        <div className="grid gap-8 border-y border-line py-8 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <p className="type-label-wide text-cobalt-400">Inside Elite</p>
+            <h3 className="mt-3 font-display text-h3 text-paper">
+              AI support for your deal flow
+            </h3>
+            <p className="mt-3 max-w-[42ch] text-sm leading-relaxed text-muted">
+              Everything in Standard, with two focused AI tools, a buyers list
+              with 2M+ contacts, and exclusive Skool community access.{" "}
+              {elitePlan?.price} per month.
+            </p>
+          </div>
+          <EliteAiRoles className="sm:grid-cols-2" />
+        </div>
 
         <div className="overflow-x-auto rounded-lg border border-line">
           <table className="w-full min-w-[46rem] border-collapse text-left">

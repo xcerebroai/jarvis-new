@@ -4,12 +4,16 @@ import { PageHero } from "@/components/layout/page-hero";
 import { CtaBand } from "@/components/marketing/cta-band";
 import { CrmBento } from "@/components/marketing/crm-bento";
 import { CrmShowcase } from "@/components/marketing/crm-showcase";
+import { EliteAiRoles } from "@/components/marketing/elite-ai-roles";
 import { FeatureGrid } from "@/components/marketing/feature-grid";
 import { ConversationInbox } from "@/components/product/conversation-inbox";
 import { PipelineBoard } from "@/components/product/pipeline-board";
 import { ProductFrame } from "@/components/product/product-frame";
 import { Container } from "@/components/ui/container";
 import { Section, SectionHeader } from "@/components/ui/section";
+import { pricingPlans } from "@/content/pricing";
+
+const elitePlan = pricingPlans.find((plan) => plan.id === "elite");
 
 export const metadata: Metadata = {
   title: "Jarvis CRM",
@@ -94,6 +98,17 @@ export default function CorePage() {
       <CrmBento />
 
       <CrmShowcase />
+
+      <Section>
+        <Container width="wide" className="flex flex-col gap-8">
+          <SectionHeader
+            eyebrow={`Elite / ${elitePlan?.price} per month`}
+            title="AI support for your deal flow"
+            description="Elite includes every Standard feature, Realtor Outreach AI, Disposition AI, a buyers list with 2M+ contacts, and exclusive Skool community access."
+          />
+          <EliteAiRoles className="sm:grid-cols-2" />
+        </Container>
+      </Section>
 
       <FeatureGrid
         tone="alt"

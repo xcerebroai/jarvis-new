@@ -2,12 +2,9 @@ import type { ReactNode } from "react";
 
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { VisualEffects } from "@/components/visuals/visual-effects";
 
-export default function MarketingLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function MarketingLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <a
@@ -21,6 +18,7 @@ export default function MarketingLayout({
         {children}
       </main>
       <Footer />
+      <VisualEffects />
     </>
   );
 }

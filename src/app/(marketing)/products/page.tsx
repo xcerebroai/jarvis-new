@@ -25,7 +25,7 @@ import {
   quentinContactUrl,
   serviceCheckouts,
 } from "@/content/personal-services";
-import { pricingPlans } from "@/content/pricing";
+import { eliteAgentRoles, pricingPlans } from "@/content/pricing";
 import { coachingServices, xcerebroWebsite } from "@/content/products";
 import { site } from "@/content/site";
 import { getPrivateOnboardingCheckout } from "@/lib/billing-config";
@@ -85,7 +85,7 @@ const crmDetails = {
   elite: {
     href: elitePaymentLink,
     intro:
-      "Everything in Standard, with outreach and disposition tools for your deal flow.",
+      "Your CRM foundation, with focused AI support for realtor outreach and the buyer side of your deals.",
     includes: [
       "Every Standard plan feature",
       "Realtor Outreach AI",
@@ -156,7 +156,13 @@ const bundles = [
   },
 ] as const;
 
-function Inclusions({ items }: { items: readonly string[] }) {
+function Inclusions({
+  items,
+  explainEliteRoles = false,
+}: {
+  items: readonly string[];
+  explainEliteRoles?: boolean;
+}) {
   return (
     <ul className="flex flex-col gap-3.5">
       {items.map((item) => (
@@ -168,7 +174,18 @@ function Inclusions({ items }: { items: readonly string[] }) {
             aria-hidden
             className="mt-0.5 size-4 shrink-0 text-cobalt-400"
           />
-          <span>{item}</span>
+          <span>
+            <span className="block">{item}</span>
+            {explainEliteRoles &&
+            eliteAgentRoles.some((role) => role.title === item) ? (
+              <span className="mt-1.5 block text-sm leading-relaxed text-muted">
+                {
+                  eliteAgentRoles.find((role) => role.title === item)
+                    ?.description
+                }
+              </span>
+            ) : null}
+          </span>
         </li>
       ))}
     </ul>
@@ -331,7 +348,10 @@ export default function ProductsPage() {
                   <p className="mt-3 mb-6 min-h-[4.5rem] text-sm leading-relaxed text-muted">
                     {detail.intro}
                   </p>
-                  <Inclusions items={detail.includes} />
+                  <Inclusions
+                    items={detail.includes}
+                    explainEliteRoles={plan.id === "elite"}
+                  />
                   <div className="mt-auto pt-8">
                     <div className="border-t border-line pt-6">
                       <ServicePurchase

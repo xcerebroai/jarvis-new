@@ -37,7 +37,8 @@ export const pricingPlans: PricingPlan[] = [
     name: "Elite",
     price: "$197",
     cadence: "per month",
-    summary: "Standard, plus the AI that works outreach and disposition.",
+    summary:
+      "Everything in Standard, plus Realtor Outreach AI, Disposition AI, and your buyer network.",
     featured: true,
   },
   {
@@ -49,6 +50,19 @@ export const pricingPlans: PricingPlan[] = [
     featured: false,
   },
 ];
+
+export const eliteAgentRoles = [
+  {
+    title: "Realtor Outreach AI",
+    description:
+      "Support your realtor outreach and the agent relationships that feed your deal flow.",
+  },
+  {
+    title: "Disposition AI",
+    description:
+      "Support the buyer-facing side of your deals with AI focused on disposition.",
+  },
+] as const;
 
 export type PricingFeature = {
   label: string;

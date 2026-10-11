@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { PageHero } from "@/components/layout/page-hero";
+import { EliteAiRoles } from "@/components/marketing/elite-ai-roles";
 import { Button } from "@/components/ui/button";
 import { ServicePurchase } from "@/components/marketing/service-purchase";
 import { Container } from "@/components/ui/container";
@@ -108,6 +109,14 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
                 );
               })}
             </div>
+            {plan.id === "elite" ? (
+              <div className="border-t border-line pt-8">
+                <h3 className="mb-5 font-display text-h3 text-paper">
+                  AI support for your deal flow
+                </h3>
+                <EliteAiRoles className="sm:grid-cols-2" />
+              </div>
+            ) : null}
             {plan.id === "premium" ? (
               <div className="rounded-lg border border-cobalt-500/30 bg-cobalt-glow p-6">
                 <span className="type-label-wide text-cobalt-400">
