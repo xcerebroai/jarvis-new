@@ -23,7 +23,7 @@ const topics = [
     title: "Help getting set up",
     description:
       "Private onboarding includes A2P setup, website creation, and two private coaching sessions.",
-    href: "/onboarding",
+    href: "/private-onboarding",
     cta: "Explore private onboarding",
   },
   {

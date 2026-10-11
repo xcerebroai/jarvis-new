@@ -2,7 +2,7 @@ export const privateOnboarding = {
   name: "Private onboarding",
   price: "$300",
   cadence: "one-time payment",
-  href: "/onboarding",
+  href: "/private-onboarding",
   summary:
     "A2P setup, website creation, and two private coaching sessions to help you use Jarvis with confidence.",
   includes: [

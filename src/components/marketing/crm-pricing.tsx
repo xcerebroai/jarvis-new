@@ -118,7 +118,7 @@ export function CrmPricing() {
             payment.
           </p>
           <Link
-            href="/onboarding"
+            href="/private-onboarding"
             className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-cobalt-400 hover:text-paper"
           >
             View private onboarding

@@ -11,6 +11,7 @@ import { getPrivateOnboardingCheckout } from "@/lib/billing-config";
 
 export const metadata: Metadata = {
   title: "Private onboarding",
+  alternates: { canonical: "/private-onboarding/" },
   description:
     "Private Jarvis onboarding for a one-time $300 payment: A2P setup, website creation, and two one-on-one coaching sessions.",
 };

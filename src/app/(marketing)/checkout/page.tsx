@@ -130,7 +130,7 @@ export default function ChoosePlanPage() {
             </Link>
           </div>
           <Link
-            href="/onboarding"
+            href="/private-onboarding"
             className="w-fit text-sm text-cobalt-400 hover:text-paper"
           >
             Need help getting set up? View $300 private onboarding.

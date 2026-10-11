@@ -522,7 +522,7 @@ export default function HomePage() {
               <p className="home-small-note">
                 A separate purchase from your CRM subscription.
               </p>
-              <TextLink href="/onboarding">Get private onboarding</TextLink>
+              <TextLink href="/private-onboarding">Get private onboarding</TextLink>
             </article>
             <article className="home-extra">
               <span className="home-eyebrow">LEAD SOURCING</span>

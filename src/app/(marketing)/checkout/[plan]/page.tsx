@@ -197,7 +197,7 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
               Compare all plans
             </Link>
             <Link
-              href="/onboarding"
+              href="/private-onboarding"
               className="border-t border-line pt-5 text-sm leading-relaxed text-muted hover:text-paper"
             >
               Need setup help? View private onboarding for a one-time $300
