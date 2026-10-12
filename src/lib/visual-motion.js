@@ -312,28 +312,39 @@ export function attachVisualMotion(root) {
 /** Progressive enhancement: targets are visible before and between entrances. */
 function attachScrollMotion(root, isStopped) {
   const records = new Map();
-  const add = (element, kind = "heading", index = 0) => {
+  const controls =
+    "a[href], button, input, select, textarea, summary, [role=button]";
+  const add = (owner, kind = "heading") => {
+    if (
+      !owner ||
+      owner.closest("form, aside, [data-no-scroll-motion]") ||
+      owner.querySelector("form, iframe, [data-no-scroll-motion]")
+    )
+      return;
+    let element = owner;
+    if (owner.querySelector(controls)) {
+      element = [...owner.querySelectorAll("h2, h3")].find(
+        (heading) =>
+          !heading.closest(controls) && !heading.querySelector(controls),
+      );
+      kind = "heading";
+    }
     if (
       !element ||
       records.has(element) ||
       typeof element.animate !== "function" ||
-      element.closest("form, aside, [data-no-scroll-motion]") ||
-      element.querySelector("form, iframe, [data-no-scroll-motion]")
+      element.closest(controls)
     )
       return;
     records.set(element, {
+      owner,
       element,
       kind,
-      // Keep click/tap targets in place when an entrance is interrupted.
-      fixedPosition: Boolean(
-        element.querySelector(
-          "a[href], button, input, select, textarea, summary, [role=button]",
-        ),
-      ),
-      delay: kind === "card" ? (index % 4) * 75 : Math.min(index, 2) * 65,
       seen: false,
-      initialized: false,
+      prepared: false,
       observed: false,
+      originalTransform: element.style.transform,
+      preparedTransform: "",
       animation: null,
       timer: 0,
     });
@@ -357,11 +368,11 @@ function attachScrollMotion(root, isStopped) {
       ].forEach((selector) => {
         home
           .querySelectorAll(selector)
-          .forEach((element, index) => add(element, "card", index));
+          .forEach((element) => add(element, "card"));
       });
       home
         .querySelectorAll(".home-bundle-intro > div")
-        .forEach((element, index) => add(element, "heading", index));
+        .forEach((element) => add(element, "heading"));
       home
         .querySelectorAll(
           ".home-pricing-note, .home-inline-note, .home-final-inner",
@@ -390,6 +401,8 @@ function attachScrollMotion(root, isStopped) {
       record.animation.cancel();
       record.animation = null;
     }
+    record.element.style.transform = record.originalTransform;
+    record.prepared = false;
     record.element.classList.remove("is-scroll-animating");
   };
   const show = (record) => {
@@ -397,45 +410,29 @@ function attachScrollMotion(root, isStopped) {
     settle(record);
   };
   const play = (record) => {
-    // A background tab must not spend an entrance before the visitor sees it.
-    if (record.seen || document.hidden || isStopped()) return;
+    if (record.seen || !record.prepared || document.hidden || isStopped())
+      return;
     record.seen = true;
     const element = record.element;
-    if (element.contains(document.activeElement)) {
+    if (record.owner.contains(document.activeElement)) {
       show(record);
       return;
     }
     try {
-      const styles = getComputedStyle(element);
-      const rise =
-        parseFloat(styles.getPropertyValue("--jarvis-scroll-rise")) ||
-        (record.kind === "card" ? 34 : 26);
-      const scale =
-        parseFloat(styles.getPropertyValue("--jarvis-scroll-scale")) ||
-        (record.kind === "card" ? 0.98 : 1);
-      const duration = record.kind === "compact" ? 720 : 900;
-      const frames = record.fixedPosition
-        ? [{ opacity: 0.35 }, { opacity: 1 }]
-        : [
-            {
-              opacity: 0.35,
-              transform: `translate3d(0, ${rise}px, 0) scale(${scale})`,
-            },
-            { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" },
-          ];
       element.classList.add("is-scroll-animating");
-      record.animation = element.animate(frames, {
-        duration,
-        delay: record.delay,
-        easing: "cubic-bezier(.22, .7, .2, 1)",
-        fill: "backwards",
-      });
-      record.animation.onfinish = () => show(record);
-      // Bound the effect even if an engine never dispatches its finish event.
-      record.timer = setTimeout(
-        () => show(record),
-        duration + record.delay + 160,
+      record.animation = element.animate(
+        [
+          { transform: record.preparedTransform },
+          { transform: record.originalTransform || "none" },
+        ],
+        { duration: 800, easing: "cubic-bezier(.22, .7, .2, 1)" },
       );
+      // The animation owns the transform now; its natural end is the original
+      // style. There is no fade, scale, backwards fill, or delayed first frame.
+      element.style.transform = record.originalTransform;
+      record.prepared = false;
+      record.animation.onfinish = () => show(record);
+      record.timer = setTimeout(() => show(record), 960);
     } catch {
       show(record);
     }
@@ -443,7 +440,6 @@ function attachScrollMotion(root, isStopped) {
   let frame = 0;
   let destroyed = false;
   let needsDiscovery = true;
-  let hasScrolled = false;
   const validBounds = (bounds) =>
     bounds.width > 0 && bounds.height > 0 && Number.isFinite(bounds.top);
   const scan = () => {
@@ -465,8 +461,8 @@ function attachScrollMotion(root, isStopped) {
       // Native builders can append controls after the card was discovered.
       // Refresh safety before any existing or newly discovered card moves.
       if (
-        element.closest("form, aside, [data-no-scroll-motion]") ||
-        element.querySelector("form, iframe, [data-no-scroll-motion]")
+        record.owner.closest("form, aside, [data-no-scroll-motion]") ||
+        record.owner.querySelector("form, iframe, [data-no-scroll-motion]")
       ) {
         settle(record);
         observer?.unobserve(element);
@@ -475,14 +471,12 @@ function attachScrollMotion(root, isStopped) {
         records.delete(element);
         return;
       }
-      const fixedPosition = Boolean(
-        element.querySelector(
-          "a[href], button, input, select, textarea, summary, [role=button]",
-        ),
-      );
-      if (fixedPosition !== record.fixedPosition) {
-        settle(record);
-        record.fixedPosition = fixedPosition;
+      if (element.closest(controls) || element.querySelector(controls)) {
+        show(record);
+        // A container that gains controls is never moved again. Its safe
+        // heading may be discovered independently if still below the screen.
+        if (element === record.owner) add(record.owner, "heading");
+        return;
       }
       if (!record.observed) {
         record.observed = true;
@@ -490,36 +484,45 @@ function attachScrollMotion(root, isStopped) {
         element.setAttribute("data-jarvis-reveal", record.kind);
         observer?.observe(element);
       }
+      if (document.hidden || isStopped()) {
+        settle(record);
+        return;
+      }
+      if (record.seen) return;
       const bounds = element.getBoundingClientRect();
-      // Native builders may initialize before their content has dimensions.
-      // Keep those records available for the next real layout/scroll event.
       if (!validBounds(bounds)) {
         settle(record);
-        record.initialized = false;
-        record.seen = false;
         return;
       }
-      if (!record.initialized) {
-        record.initialized = true;
-        record.seen =
-          !hasScrolled &&
-          !document.hidden &&
-          !isStopped() &&
-          bounds.top < height &&
-          bounds.bottom > 0;
-      }
-      // Every target can rearm, including the stable first screen and records
-      // first encountered while motion was paused or reduced.
-      if (bounds.bottom < -160 || bounds.top > height + 160) {
-        settle(record);
-        record.seen = false;
+      if (record.owner.contains(document.activeElement)) {
+        show(record);
         return;
       }
-      if (document.hidden || isStopped()) {
-        if (record.animation) {
-          settle(record);
-          record.seen = false;
+      if (!record.prepared) {
+        // Pre-position only while completely below the visible viewport.
+        // Already-visible/restored content is never jumped, dimmed or reset.
+        if (bounds.top < height) {
+          record.seen = true;
+          return;
         }
+        const rise = Math.max(
+          20,
+          Math.min(
+            28,
+            parseFloat(
+              getComputedStyle(element).getPropertyValue(
+                "--jarvis-scroll-rise",
+              ),
+            ) || 24,
+          ),
+        );
+        record.preparedTransform = `translate3d(0, ${rise}px, 0)`;
+        element.style.transform = record.preparedTransform;
+        record.prepared = true;
+        return;
+      }
+      if (bounds.bottom <= 0) {
+        show(record);
         return;
       }
       const visible =
@@ -539,10 +542,7 @@ function attachScrollMotion(root, isStopped) {
           rootMargin: "160px 0px",
           threshold: [0, 0.15, 1],
         });
-  const scroll = () => {
-    hasScrolled = true;
-    schedule();
-  };
+  const scroll = schedule;
   const refresh = () => {
     needsDiscovery = true;
     schedule();
@@ -572,7 +572,7 @@ function attachScrollMotion(root, isStopped) {
     )
       return;
     records.forEach((record) => {
-      if (record.element.contains(event.target)) show(record);
+      if (record.owner.contains(event.target)) show(record);
     });
   };
   root.addEventListener("focusin", revealInteraction);
@@ -581,10 +581,7 @@ function attachScrollMotion(root, isStopped) {
     sync() {
       if (document.hidden || isStopped()) {
         records.forEach((record) => {
-          if (record.animation) {
-            settle(record);
-            record.seen = false;
-          }
+          settle(record);
         });
       }
       schedule();

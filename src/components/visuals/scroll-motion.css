@@ -1,40 +1,23 @@
-/* Defaults remain visible. JavaScript adds only bounded entrance effects. */
+/* Content is always fully opaque. Only offscreen targets are pre-positioned. */
 .jarvis-scroll-target {
-  --jarvis-scroll-rise: 26px;
-  --jarvis-scroll-scale: 1;
+  --jarvis-scroll-rise: 24px;
 }
-
 .jarvis-scroll-target[data-jarvis-reveal="card"] {
-  --jarvis-scroll-rise: 34px;
-  --jarvis-scroll-scale: 0.98;
+  --jarvis-scroll-rise: 28px;
 }
-
 .jarvis-scroll-target[data-jarvis-reveal="compact"] {
   --jarvis-scroll-rise: 20px;
 }
-
 .jarvis-scroll-target.is-scroll-animating {
-  will-change: opacity, transform;
+  will-change: transform;
 }
-
-/* Keyboard, touch, and pause always take priority over an entrance effect. */
 .jarvis-scroll-target:focus-within,
 .jarvis-motion-paused .jarvis-scroll-target {
-  opacity: 1 !important;
   transform: none !important;
   will-change: auto;
 }
-
-@media (max-width: 640px) {
-  .jarvis-scroll-target[data-jarvis-reveal="card"] {
-    --jarvis-scroll-rise: 28px;
-    --jarvis-scroll-scale: 0.98;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .jarvis-scroll-target {
-    opacity: 1 !important;
     transform: none !important;
     will-change: auto;
   }

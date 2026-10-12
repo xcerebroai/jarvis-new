@@ -17,6 +17,7 @@ class Element {
       height: 200,
       isConnected: true,
       children: [],
+      style: { transform: "" },
       animations: [],
       attrs: {},
       listeners: new Map(),
@@ -37,6 +38,8 @@ class Element {
       : null;
   }
   querySelectorAll(selector) {
+    if (selector === "h2, h3")
+      return this.options.heading ? [this.options.heading] : [];
     return this.mapping?.[selector] || [];
   }
   getBoundingClientRect() {
@@ -179,31 +182,64 @@ function setup(cards, { paused = false, hidden = false, io = true } = {}) {
   };
 }
 
-test("valid initial screen is stable, observed, and animates after exit/reentry", () => {
-  const card = new Element(200),
+test("offscreen preparation precedes constant-opacity single translation, without scale/fill/delay", () => {
+  const card = new Element(),
     s = setup([card]);
-  assert(s.observers[0].observed.has(card));
+  assert.match(card.style.transform, /translate3d/);
   assert.equal(card.animations.length, 0);
+  card.top = 350;
+  s.scroll();
+  const a = card.animations[0];
+  assert(a.frames.every((f) => Object.keys(f).join() === "transform"));
+  assert(!JSON.stringify(a.frames).includes("scale"));
+  assert.equal(a.options.duration, 800);
+  assert(!("fill" in a.options));
+  assert(!("delay" in a.options));
+  assert.equal(card.style.transform, "");
+  a.onfinish();
   card.top = 1200;
   s.scroll();
-  card.top = 300;
-  s.scroll();
-  assert.equal(card.animations.length, 1);
-  s.motion.destroy();
-});
-test("zero-layout startup recovers on scroll without reinitializing root", () => {
-  const card = new Element(0);
-  card.height = 0;
-  const s = setup([card]);
-  assert(s.observers[0].observed.has(card));
-  assert.equal(card.animations.length, 0);
-  card.height = 200;
   card.top = 350;
   s.scroll();
   assert.equal(card.animations.length, 1);
   s.motion.destroy();
 });
-test("geometry fallback works without IntersectionObserver and coalesces scroll events", () => {
+test("visible startup/restored cards are never pre-positioned or restarted", () => {
+  const card = new Element(200),
+    s = setup([card]);
+  assert.equal(card.style.transform, "");
+  assert(s.observers[0].observed.has(card));
+  card.top = 1200;
+  s.scroll();
+  card.top = 350;
+  s.scroll();
+  assert.equal(card.animations.length, 0);
+  s.motion.destroy();
+});
+test("zero layout recovers below viewport; visible late layout is left untouched", () => {
+  const card = new Element(0);
+  card.height = 0;
+  const s = setup([card]);
+  assert.equal(card.style.transform, "");
+  card.height = 200;
+  card.top = 1200;
+  s.event("resize");
+  assert.match(card.style.transform, /translate3d/);
+  card.top = 350;
+  s.scroll();
+  assert.equal(card.animations.length, 1);
+  s.motion.destroy();
+  const visible = new Element(0);
+  visible.height = 0;
+  const t = setup([visible]);
+  visible.height = 200;
+  visible.top = 100;
+  t.event("resize");
+  assert.equal(visible.style.transform, "");
+  assert.equal(visible.animations.length, 0);
+  t.motion.destroy();
+});
+test("passive scroll fallback coalesces and animates without IntersectionObserver", () => {
   const card = new Element(),
     s = setup([card], { io: false });
   card.top = 350;
@@ -211,147 +247,114 @@ test("geometry fallback works without IntersectionObserver and coalesces scroll 
   assert.equal(s.frames.size, 1);
   s.flush();
   assert.equal(card.animations.length, 1);
-  assert.equal(s.frames.size, 0);
   s.motion.destroy();
 });
-test("paused and reduced-motion predicate never consumes pending entry", () => {
-  const card = new Element(),
-    s = setup([card], { paused: true });
-  card.top = 350;
+test("interactive container stays still and only a safe child heading animates", () => {
+  const title = new Element(),
+    card = new Element(1200, { control: true, heading: title }),
+    s = setup([card]);
+  assert.equal(card.style.transform, "");
+  assert.match(title.style.transform, /translate3d/);
+  title.top = 350;
+  card.top = 300;
   s.scroll();
   assert.equal(card.animations.length, 0);
-  s.pause(false);
-  assert.equal(card.animations.length, 1);
+  assert.equal(title.animations.length, 1);
+  s.motion.destroy();
+  const noTitle = new Element(1200, { control: true }),
+    t = setup([noTitle]);
+  noTitle.top = 300;
+  t.scroll();
+  assert.equal(noTitle.animations.length, 0);
+  assert.equal(noTitle.style.transform, "");
+  t.motion.destroy();
+});
+test("paused/reduced/hidden content stays still and unprepared visible content is not jumped on resume", () => {
+  for (const mode of ["paused", "hidden"]) {
+    const card = new Element(),
+      s = setup([card], { [mode]: true });
+    assert.equal(card.style.transform, "");
+    card.top = 350;
+    s.scroll();
+    s.document.hidden = false;
+    s.pause(false);
+    assert.equal(card.animations.length, 0);
+    assert.equal(card.style.transform, "");
+    s.motion.destroy();
+  }
+});
+test("pause interruption restores transform and never restarts completed/started entrance", () => {
+  const card = new Element(),
+    s = setup([card]);
+  card.top = 350;
+  s.scroll();
   s.pause(true);
   assert(card.animations[0].cancelled);
-  assert.equal(s.timers.size, 0);
-  s.motion.destroy();
-});
-test("hidden tab preserves pending entry and resumes on visibility sync", () => {
-  const card = new Element(),
-    s = setup([card], { hidden: true });
+  assert.equal(card.style.transform, "");
+  s.pause(false);
+  card.top = 1200;
+  s.scroll();
   card.top = 350;
   s.scroll();
-  assert.equal(card.animations.length, 0);
-  s.document.hidden = false;
-  s.motion.sync();
-  s.flush();
   assert.equal(card.animations.length, 1);
   s.motion.destroy();
 });
-test("dynamic cards discovered after initially empty markup", () => {
+test("dynamic discovery prepares late below-screen cards without root initialization", () => {
   const cards = [],
-    s = setup(cards);
-  const card = new Element();
+    s = setup(cards),
+    card = new Element();
   cards.push(card);
   s.mutations[0].cb();
   s.flush();
-  assert(s.observers[0].observed.has(card));
+  assert.match(card.style.transform, /translate3d/);
   card.top = 350;
   s.scroll();
   assert.equal(card.animations.length, 1);
   s.motion.destroy();
 });
-test("resize and page restoration recover late layout without scroll", () => {
+test("touch scroll preserves entrance; keyboard focus settles permanently", () => {
   const card = new Element(),
     s = setup([card]);
   card.top = 350;
-  s.event("pageshow");
-  assert.equal(card.animations.length, 1);
-  card.animations[0].onfinish();
-  card.top = 1200;
-  s.event("resize");
-  card.top = 350;
-  s.resizes[0].cb();
-  s.flush();
-  assert.equal(card.animations.length, 2);
-  s.motion.destroy();
-});
-test("short heading/card geometry cannot self-cancel at the entry edge", () => {
-  const card = new Element(),
-    s = setup([card]);
-  card.height = 100;
-  card.top = 690;
   s.scroll();
-  assert.equal(card.animations.length, 1);
-  card.top = 724;
-  s.observers[0].cb();
-  s.flush();
-  assert(!card.animations[0].cancelled);
-  s.motion.destroy();
-});
-test("touch scroll does not cancel; focus and controls settle without moving targets", () => {
-  const card = new Element(1200, { control: true }),
-    s = setup([card]);
-  card.top = 350;
-  s.scroll();
-  assert(card.animations[0].frames.every((frame) => !("transform" in frame)));
   s.interact("pointerdown", { parent: card, closest: () => null });
   assert(!card.animations[0].cancelled);
-  s.interact("pointerdown", { parent: card, closest: () => ({}) });
+  s.interact("focusin", { parent: card });
   assert(card.animations[0].cancelled);
+  assert.equal(card.style.transform, "");
   card.top = 1200;
   s.scroll();
   card.top = 350;
   s.scroll();
-  s.interact("focusin", { parent: card });
-  assert(card.animations[1].cancelled);
-  s.motion.destroy();
-});
-test("replay requires full exit and never loops at the trigger boundary", () => {
-  const card = new Element(),
-    s = setup([card]);
-  card.top = 350;
-  s.scroll();
-  card.animations[0].onfinish();
-  card.top = 750;
-  s.scroll();
-  card.top = 350;
-  s.scroll();
   assert.equal(card.animations.length, 1);
-  card.top = 1000;
-  s.scroll();
-  card.top = 350;
-  s.scroll();
-  assert.equal(card.animations.length, 2);
   s.motion.destroy();
 });
-test("forms excluded, failures visible, and cleanup removes all listeners and observers", () => {
-  const form = new Element(1200, { form: true }),
-    card = new Element(1200, { throw: true }),
-    s = setup([form, card]);
-  assert(!s.observers[0].observed.has(form));
-  card.top = 350;
-  s.scroll();
-  assert(!card.classes.has("is-scroll-animating"));
-  s.listeners.get("scroll")();
-  s.motion.destroy();
-  assert.equal(s.frames.size, 0);
-  assert.equal(s.timers.size, 0);
-  assert.equal(s.listeners.size, 0);
-  assert.equal(s.root.listeners.size, 0);
-  assert(
-    [...s.observers, ...s.mutations, ...s.resizes].every(
-      (observer) => observer.disconnected,
-    ),
-  );
-  assert.equal(card.classes.size, 0);
-});
-
-test("late controls become position-stable and late forms immediately stop motion", () => {
+test("late forms stop motion, failed animation stays visible, and teardown restores prepared targets", () => {
   const card = new Element(),
     s = setup([card]);
-  card.options.control = true;
-  s.mutations[0].cb();
-  s.flush();
-  card.top = 350;
-  s.scroll();
-  assert(card.animations[0].frames.every((frame) => !("transform" in frame)));
   card.options.form = true;
   s.mutations[0].cb();
   s.flush();
-  assert(card.animations[0].cancelled);
+  assert.equal(card.style.transform, "");
   assert(!s.observers[0].observed.has(card));
-  assert(!card.classes.has("jarvis-scroll-target"));
   s.motion.destroy();
+  const failure = new Element(1200, { throw: true }),
+    t = setup([failure]);
+  failure.top = 350;
+  t.scroll();
+  assert.equal(failure.style.transform, "");
+  assert(!failure.classes.has("is-scroll-animating"));
+  t.motion.destroy();
+  const prepared = new Element(),
+    u = setup([prepared]);
+  u.listeners.get("scroll")();
+  u.motion.destroy();
+  assert.equal(prepared.style.transform, "");
+  assert.equal(u.frames.size, 0);
+  assert.equal(u.timers.size, 0);
+  assert.equal(u.listeners.size, 0);
+  assert.equal(u.root.listeners.size, 0);
+  assert(
+    [...u.observers, ...u.mutations, ...u.resizes].every((o) => o.disconnected),
+  );
 });
