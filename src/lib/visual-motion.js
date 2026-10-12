@@ -311,9 +311,6 @@ export function attachVisualMotion(root) {
 
 /** Progressive enhancement: targets are visible before and between entrances. */
 function attachScrollMotion(root, isStopped) {
-  const noop = { sync() {}, destroy() {} };
-  if (typeof IntersectionObserver === "undefined") return noop;
-  const home = root.querySelector(".jarvis-home");
   const records = new Map();
   const add = (element, kind = "heading", index = 0) => {
     if (
@@ -335,50 +332,53 @@ function attachScrollMotion(root, isStopped) {
       ),
       delay: kind === "card" ? (index % 4) * 75 : Math.min(index, 2) * 65,
       seen: false,
-      played: false,
+      initialized: false,
+      observed: false,
       animation: null,
       timer: 0,
     });
   };
-  if (home) {
-    home
-      .querySelectorAll(".home-heading-row")
-      .forEach((element) => add(element));
-    home.querySelectorAll(".home-section-heading").forEach((element) => {
-      if (!element.closest(".home-heading-row")) add(element);
-    });
-    [
-      ".home-feature-grid > .home-feature",
-      ".home-plans > .home-plan",
-      ".home-agent-grid > .home-agent",
-      ".home-service-grid > .home-service",
-      ".home-extra-grid > .home-extra",
-      ".home-bundles > article",
-    ].forEach((selector) => {
+  const discover = () => {
+    const home = root.querySelector(".jarvis-home");
+    if (home) {
       home
-        .querySelectorAll(selector)
-        .forEach((element, index) => add(element, "card", index));
-    });
-    home
-      .querySelectorAll(".home-bundle-intro > div")
-      .forEach((element, index) => add(element, "heading", index));
-    home
-      .querySelectorAll(
-        ".home-pricing-note, .home-inline-note, .home-final-inner",
-      )
-      .forEach((element) => add(element, "compact"));
-  } else {
-    // Standard SectionHeader groups only, never whole purchase/booking sections.
-    root.querySelectorAll("main > section > div > div").forEach((element) => {
-      if (
-        element.children.length <= 4 &&
-        element.querySelector(":scope > h2") &&
-        !element.closest("article")
-      )
-        add(element);
-    });
-  }
-  if (!records.size) return noop;
+        .querySelectorAll(".home-heading-row")
+        .forEach((element) => add(element));
+      home.querySelectorAll(".home-section-heading").forEach((element) => {
+        if (!element.closest(".home-heading-row")) add(element);
+      });
+      [
+        ".home-feature-grid > .home-feature",
+        ".home-plans > .home-plan",
+        ".home-agent-grid > .home-agent",
+        ".home-service-grid > .home-service",
+        ".home-extra-grid > .home-extra",
+        ".home-bundles > article",
+      ].forEach((selector) => {
+        home
+          .querySelectorAll(selector)
+          .forEach((element, index) => add(element, "card", index));
+      });
+      home
+        .querySelectorAll(".home-bundle-intro > div")
+        .forEach((element, index) => add(element, "heading", index));
+      home
+        .querySelectorAll(
+          ".home-pricing-note, .home-inline-note, .home-final-inner",
+        )
+        .forEach((element) => add(element, "compact"));
+    } else {
+      // Standard SectionHeader groups only, never whole purchase/booking sections.
+      root.querySelectorAll("main > section > div > div").forEach((element) => {
+        if (
+          element.children.length <= 4 &&
+          element.querySelector(":scope > h2") &&
+          !element.closest("article")
+        )
+          add(element);
+      });
+    }
+  };
 
   const viewportHeight = () =>
     window.innerHeight || document.documentElement.clientHeight;
@@ -398,10 +398,10 @@ function attachScrollMotion(root, isStopped) {
   };
   const play = (record) => {
     // A background tab must not spend an entrance before the visitor sees it.
-    if (record.seen || document.hidden) return;
+    if (record.seen || document.hidden || isStopped()) return;
     record.seen = true;
     const element = record.element;
-    if (isStopped() || element.contains(document.activeElement)) {
+    if (element.contains(document.activeElement)) {
       show(record);
       return;
     }
@@ -430,7 +430,6 @@ function attachScrollMotion(root, isStopped) {
         easing: "cubic-bezier(.22, .7, .2, 1)",
         fill: "backwards",
       });
-      record.played = true;
       record.animation.onfinish = () => show(record);
       // Bound the effect even if an engine never dispatches its finish event.
       record.timer = setTimeout(
@@ -441,48 +440,127 @@ function attachScrollMotion(root, isStopped) {
       show(record);
     }
   };
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const record = records.get(entry.target);
-        if (!record) return;
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.15)
-          play(record);
-      });
-    },
-    { rootMargin: "0px 0px -80px 0px", threshold: 0.15 },
-  );
-  // Rearm only after the entire card is well outside the viewport. Small
-  // finger movements at an entrance boundary cannot repeatedly trigger it.
-  const exitObserver = new IntersectionObserver(
-    (entries) => {
-      if (document.hidden) return;
-      entries.forEach((entry) => {
-        const record = records.get(entry.target);
-        if (!entry.isIntersecting && record?.played) {
+  let frame = 0;
+  let destroyed = false;
+  let needsDiscovery = true;
+  let hasScrolled = false;
+  const validBounds = (bounds) =>
+    bounds.width > 0 && bounds.height > 0 && Number.isFinite(bounds.top);
+  const scan = () => {
+    frame = 0;
+    if (destroyed) return;
+    if (needsDiscovery) {
+      needsDiscovery = false;
+      discover();
+    }
+    const height = viewportHeight();
+    records.forEach((record) => {
+      const element = record.element;
+      if (element.isConnected === false) {
+        settle(record);
+        observer?.unobserve(element);
+        records.delete(element);
+        return;
+      }
+      // Native builders can append controls after the card was discovered.
+      // Refresh safety before any existing or newly discovered card moves.
+      if (
+        element.closest("form, aside, [data-no-scroll-motion]") ||
+        element.querySelector("form, iframe, [data-no-scroll-motion]")
+      ) {
+        settle(record);
+        observer?.unobserve(element);
+        element.classList.remove("jarvis-scroll-target");
+        element.removeAttribute("data-jarvis-reveal");
+        records.delete(element);
+        return;
+      }
+      const fixedPosition = Boolean(
+        element.querySelector(
+          "a[href], button, input, select, textarea, summary, [role=button]",
+        ),
+      );
+      if (fixedPosition !== record.fixedPosition) {
+        settle(record);
+        record.fixedPosition = fixedPosition;
+      }
+      if (!record.observed) {
+        record.observed = true;
+        element.classList.add("jarvis-scroll-target");
+        element.setAttribute("data-jarvis-reveal", record.kind);
+        observer?.observe(element);
+      }
+      const bounds = element.getBoundingClientRect();
+      // Native builders may initialize before their content has dimensions.
+      // Keep those records available for the next real layout/scroll event.
+      if (!validBounds(bounds)) {
+        settle(record);
+        record.initialized = false;
+        record.seen = false;
+        return;
+      }
+      if (!record.initialized) {
+        record.initialized = true;
+        record.seen =
+          !hasScrolled &&
+          !document.hidden &&
+          !isStopped() &&
+          bounds.top < height &&
+          bounds.bottom > 0;
+      }
+      // Every target can rearm, including the stable first screen and records
+      // first encountered while motion was paused or reduced.
+      if (bounds.bottom < -160 || bounds.top > height + 160) {
+        settle(record);
+        record.seen = false;
+        return;
+      }
+      if (document.hidden || isStopped()) {
+        if (record.animation) {
           settle(record);
           record.seen = false;
         }
-      });
-    },
-    { rootMargin: "160px 0px", threshold: 0 },
-  );
-  let wasHidden = document.hidden;
-
-  records.forEach((record) => {
-    // Leave the first screen and restored scroll positions entirely stable.
-    if (
-      !document.hidden &&
-      record.element.getBoundingClientRect().top < viewportHeight()
-    ) {
-      record.seen = true;
-      return;
-    }
-    record.element.classList.add("jarvis-scroll-target");
-    record.element.setAttribute("data-jarvis-reveal", record.kind);
-    observer.observe(record.element);
-    exitObserver.observe(record.element);
-  });
+        return;
+      }
+      const visible =
+        Math.min(bounds.bottom, height - 80) - Math.max(bounds.top, 0);
+      if (visible >= Math.min(bounds.height * 0.15, 120)) play(record);
+    });
+  };
+  const schedule = () => {
+    if (!destroyed && !frame) frame = requestAnimationFrame(scan);
+  };
+  // IO is an optimization, not a prerequisite: Safari scroll/layout events
+  // run the same geometry check, coalesced to at most one animation frame.
+  const observer =
+    typeof IntersectionObserver === "undefined"
+      ? null
+      : new IntersectionObserver(schedule, {
+          rootMargin: "160px 0px",
+          threshold: [0, 0.15, 1],
+        });
+  const scroll = () => {
+    hasScrolled = true;
+    schedule();
+  };
+  const refresh = () => {
+    needsDiscovery = true;
+    schedule();
+  };
+  const mutations =
+    typeof MutationObserver === "undefined"
+      ? null
+      : new MutationObserver(refresh);
+  mutations?.observe(root, { childList: true, subtree: true });
+  const resizeObserver =
+    typeof ResizeObserver === "undefined" ? null : new ResizeObserver(schedule);
+  resizeObserver?.observe(root);
+  window.addEventListener("scroll", scroll, { passive: true });
+  window.addEventListener("resize", refresh, { passive: true });
+  window.addEventListener("pageshow", refresh);
+  window.addEventListener("load", refresh);
+  document.fonts?.ready?.then(refresh);
+  scan();
   const revealInteraction = (event) => {
     // Touch scrolling over a card should not cancel its entrance. Actual
     // controls still settle immediately; keyboard focus always takes priority.
@@ -501,34 +579,26 @@ function attachScrollMotion(root, isStopped) {
   root.addEventListener("pointerdown", revealInteraction, { passive: true });
   return {
     sync() {
-      if (document.hidden) {
-        wasHidden = true;
+      if (document.hidden || isStopped()) {
         records.forEach((record) => {
-          if (record.animation) show(record);
-        });
-        return;
-      }
-      if (wasHidden) {
-        wasHidden = false;
-        records.forEach((record) => {
-          if (!record.seen) {
-            observer.unobserve(record.element);
-            observer.observe(record.element);
+          if (record.animation) {
+            settle(record);
+            record.seen = false;
           }
         });
       }
-      if (!isStopped()) return;
-      records.forEach((record) => {
-        if (
-          record.animation ||
-          record.element.getBoundingClientRect().top < viewportHeight()
-        )
-          show(record);
-      });
+      schedule();
     },
     destroy() {
-      observer.disconnect();
-      exitObserver.disconnect();
+      destroyed = true;
+      cancelAnimationFrame(frame);
+      observer?.disconnect();
+      mutations?.disconnect();
+      resizeObserver?.disconnect();
+      window.removeEventListener("scroll", scroll);
+      window.removeEventListener("resize", refresh);
+      window.removeEventListener("pageshow", refresh);
+      window.removeEventListener("load", refresh);
       root.removeEventListener("focusin", revealInteraction);
       root.removeEventListener("pointerdown", revealInteraction);
       records.forEach((record) => {
