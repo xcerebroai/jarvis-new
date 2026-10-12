@@ -327,6 +327,14 @@ function attachScrollMotion(root, isStopped) {
         (heading) =>
           !heading.closest(controls) && !heading.querySelector(controls),
       );
+      // Move the largest safe title/copy group, while leaving controls still.
+      while (
+        element?.parentElement &&
+        element.parentElement !== owner &&
+        !element.parentElement.querySelector(controls)
+      ) {
+        element = element.parentElement;
+      }
       kind = "heading";
     }
     if (
@@ -341,6 +349,7 @@ function attachScrollMotion(root, isStopped) {
       element,
       kind,
       seen: false,
+      completed: false,
       prepared: false,
       observed: false,
       originalTransform: element.style.transform,
@@ -425,14 +434,18 @@ function attachScrollMotion(root, isStopped) {
           { transform: record.preparedTransform },
           { transform: record.originalTransform || "none" },
         ],
-        { duration: 800, easing: "cubic-bezier(.22, .7, .2, 1)" },
+        { duration: 1100, easing: "cubic-bezier(.22, .7, .2, 1)" },
       );
       // The animation owns the transform now; its natural end is the original
       // style. There is no fade, scale, backwards fill, or delayed first frame.
       element.style.transform = record.originalTransform;
       record.prepared = false;
-      record.animation.onfinish = () => show(record);
-      record.timer = setTimeout(() => show(record), 960);
+      const finish = () => {
+        record.completed = true;
+        show(record);
+      };
+      record.animation.onfinish = finish;
+      record.timer = setTimeout(finish, 1260);
     } catch {
       show(record);
     }
@@ -488,7 +501,20 @@ function attachScrollMotion(root, isStopped) {
         settle(record);
         return;
       }
-      if (record.seen) return;
+      if (record.seen) {
+        const ownerBounds = record.owner.getBoundingClientRect();
+        if (
+          !record.completed ||
+          record.animation ||
+          !validBounds(ownerBounds) ||
+          ownerBounds.top <= height + 160
+        )
+          return;
+        // Only a finished entrance can replay, after its whole owner has left
+        // below the viewport. Visible content and small scroll jitter stay put.
+        record.seen = false;
+        record.completed = false;
+      }
       const bounds = element.getBoundingClientRect();
       if (!validBounds(bounds)) {
         settle(record);
@@ -508,12 +534,12 @@ function attachScrollMotion(root, isStopped) {
         const rise = Math.max(
           20,
           Math.min(
-            28,
+            80,
             parseFloat(
               getComputedStyle(element).getPropertyValue(
                 "--jarvis-scroll-rise",
               ),
-            ) || 24,
+            ) || (record.kind === "compact" ? 56 : 80),
           ),
         );
         record.preparedTransform = `translate3d(0, ${rise}px, 0)`;

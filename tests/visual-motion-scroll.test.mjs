@@ -129,7 +129,7 @@ function setup(cards, { paused = false, hidden = false, io = true } = {}) {
     Map,
     Number,
     parseFloat,
-    getComputedStyle: () => ({ getPropertyValue: () => "" }),
+    getComputedStyle: (el) => ({ getPropertyValue: () => el.options.rise || "" }),
     requestAnimationFrame: (cb) => {
       const id = ++sequence;
       frames.set(id, cb);
@@ -182,7 +182,7 @@ function setup(cards, { paused = false, hidden = false, io = true } = {}) {
   };
 }
 
-test("offscreen preparation precedes constant-opacity single translation, without scale/fill/delay", () => {
+test("offscreen preparation and full-owner exit permit smooth replay without scale/fill/delay", () => {
   const card = new Element(),
     s = setup([card]);
   assert.match(card.style.transform, /translate3d/);
@@ -192,7 +192,8 @@ test("offscreen preparation precedes constant-opacity single translation, withou
   const a = card.animations[0];
   assert(a.frames.every((f) => Object.keys(f).join() === "transform"));
   assert(!JSON.stringify(a.frames).includes("scale"));
-  assert.equal(a.options.duration, 800);
+  assert.equal(a.options.duration, 1100);
+  assert.equal(a.frames[0].transform, "translate3d(0, 80px, 0)");
   assert(!("fill" in a.options));
   assert(!("delay" in a.options));
   assert.equal(card.style.transform, "");
@@ -201,7 +202,7 @@ test("offscreen preparation precedes constant-opacity single translation, withou
   s.scroll();
   card.top = 350;
   s.scroll();
-  assert.equal(card.animations.length, 1);
+  assert.equal(card.animations.length, 2);
   s.motion.destroy();
 });
 test("visible startup/restored cards are never pre-positioned or restarted", () => {
@@ -268,6 +269,51 @@ test("interactive container stays still and only a safe child heading animates",
   assert.equal(noTitle.animations.length, 0);
   assert.equal(noTitle.style.transform, "");
   t.motion.destroy();
+});
+test("largest safe heading/copy ancestor moves, and visible owner prevents rearming", () => {
+  const title = new Element(),
+    group = new Element(),
+    card = new Element(1200, { control: true, heading: title });
+  title.parentElement = group;
+  group.parentElement = card;
+  const s = setup([card]);
+  assert.equal(title.style.transform, "");
+  assert.match(group.style.transform, /translate3d/);
+  group.top = 350;
+  card.top = 300;
+  s.scroll();
+  assert.equal(group.animations.length, 1);
+  assert.equal(card.animations.length, 0);
+  group.animations[0].onfinish();
+  for (const top of [350, 385, 350, 1000]) {
+    group.top = top;
+    s.scroll();
+  }
+  assert.equal(group.style.transform, "");
+  assert.equal(group.animations.length, 1);
+  card.top = 1200;
+  group.top = 1250;
+  s.scroll();
+  assert.match(group.style.transform, /translate3d/);
+  card.top = 300;
+  group.top = 350;
+  s.scroll();
+  assert.equal(group.animations.length, 2);
+  s.motion.destroy();
+});
+test("active animation never rearms offscreen and mobile rise is respected", () => {
+  const card = new Element(1200, { rise: "48" }),
+    s = setup([card]);
+  card.top = 350;
+  s.scroll();
+  assert.equal(card.animations[0].frames[0].transform, "translate3d(0, 48px, 0)");
+  card.top = 1200;
+  s.scroll();
+  card.top = 350;
+  s.scroll();
+  assert.equal(card.animations.length, 1);
+  assert(!card.animations[0].cancelled);
+  s.motion.destroy();
 });
 test("paused/reduced/hidden content stays still and unprepared visible content is not jumped on resume", () => {
   for (const mode of ["paused", "hidden"]) {

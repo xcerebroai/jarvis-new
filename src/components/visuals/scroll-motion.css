@@ -1,12 +1,18 @@
 /* Content is always fully opaque. Only offscreen targets are pre-positioned. */
 .jarvis-scroll-target {
-  --jarvis-scroll-rise: 24px;
+  --jarvis-scroll-rise: 80px;
 }
 .jarvis-scroll-target[data-jarvis-reveal="card"] {
-  --jarvis-scroll-rise: 28px;
+  --jarvis-scroll-rise: 80px;
 }
 .jarvis-scroll-target[data-jarvis-reveal="compact"] {
-  --jarvis-scroll-rise: 20px;
+  --jarvis-scroll-rise: 56px;
+}
+@media (max-width: 640px) {
+  .jarvis-scroll-target,
+  .jarvis-scroll-target[data-jarvis-reveal] {
+    --jarvis-scroll-rise: 48px;
+  }
 }
 .jarvis-scroll-target.is-scroll-animating {
   will-change: transform;
