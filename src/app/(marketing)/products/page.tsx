@@ -28,6 +28,7 @@ import {
 } from "@/content/personal-services";
 import { eliteAgentRoles, pricingPlans } from "@/content/pricing";
 import { coachingServices, xcerebroWebsite } from "@/content/products";
+import { communityMembershipPolicy } from "@/content/community-membership";
 import { site } from "@/content/site";
 import { getPrivateOnboardingCheckout } from "@/lib/billing-config";
 import { cn } from "@/lib/cn";
@@ -657,6 +658,9 @@ export default function ProductsPage() {
                 <p className="mt-6 text-sm text-muted">
                   See Skool for current membership pricing and included
                   resources.
+                </p>
+                <p className="mt-4 text-sm leading-relaxed text-muted">
+                  {communityMembershipPolicy}
                 </p>
                 <a
                   href={program.href}

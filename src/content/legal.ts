@@ -1,3 +1,5 @@
+import { communityMembershipPolicy } from "./community-membership";
+
 export type LegalSection = {
   id: string;
   title: string;
@@ -133,6 +135,7 @@ export const termsAndConditions: LegalDocument = {
       paragraphs: [
         "All purchases, subscription charges, usage charges, onboarding fees, and service payments made to Jarvis are final and non-refundable. By purchasing, clients agree that there are no refunds under any circumstances, except where a refund is required by applicable law.",
         "This no-refund policy applies regardless of usage, satisfaction, implementation status, appointment attendance, account activity, or whether the client chooses to stop using the service during a paid billing period.",
+        `AI Cheat Codes and Real Estate Cheat Codes: ${communityMembershipPolicy}`,
         "You may cancel a recurring Jarvis subscription at any time through the subscription management options available in your account or through the cancellation method provided with your purchase. Cancellation stops future renewals and does not refund or credit any amount already paid.",
         "After cancellation, access continues until the end of the current paid billing period unless access is suspended earlier for a violation, security risk, payment reversal, or another reason permitted by these terms. After the paid period ends, the account may be deactivated and access to software, data, and related services may end.",
         "Deleting a bookmark, disconnecting an integration, stopping use, or opting out of marketing messages does not cancel a subscription.",

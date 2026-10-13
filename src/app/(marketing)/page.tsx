@@ -22,6 +22,7 @@ import {
   serviceCheckouts,
 } from "@/content/personal-services";
 import { coachingServices } from "@/content/products";
+import { communityMembershipPolicy } from "@/content/community-membership";
 import { cn } from "@/lib/cn";
 import { JarvisCore } from "@/components/visuals/jarvis-core";
 import { AgentRobot } from "@/components/visuals/agent-robot";
@@ -536,6 +537,7 @@ export default function HomePage() {
                       ? "Practical AI training, prompts, templates, courses, and live workflow discussions."
                       : "Distressed-property education, county-data workflows, deal reviews, and community support."}
                   </p>
+                  <p className="home-small-note">{communityMembershipPolicy}</p>
                   <TextLink href={program.href}>Explore on Skool</TextLink>
                 </div>
               ))}
