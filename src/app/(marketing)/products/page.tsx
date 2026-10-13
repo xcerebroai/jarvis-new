@@ -608,7 +608,9 @@ export default function ProductsPage() {
               <p className="mt-6 text-sm leading-relaxed text-muted">
                 Premium includes four AI agents. Additional deployments and
                 ongoing services are scoped separately. The custom real estate
-                agent offer above has its own one-time build fee.
+                agent offer above is $3,223.17 upfront, plus $97/month for
+                oversight and customization support, starting 30 days after
+                purchase.
               </p>
               <a
                 href={xcerebroWebsite}

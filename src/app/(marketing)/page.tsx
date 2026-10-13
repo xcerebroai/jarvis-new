@@ -436,7 +436,7 @@ export default function HomePage() {
                     <strong>{serviceCheckouts[service.id].price}</strong>
                     <span>
                       {service.id === "custom-ai-agent"
-                        ? "one-time build fee"
+                        ? "upfront + $97/month"
                         : "one time"}
                     </span>
                   </div>
@@ -446,7 +446,8 @@ export default function HomePage() {
                 </div>
                 {service.id === "custom-ai-agent" ? (
                   <p className="home-small-note">
-                    Ongoing services and usage may be quoted separately.
+                    Monthly oversight and customization support starts 30 days
+                    after purchase.
                   </p>
                 ) : null}
               </article>

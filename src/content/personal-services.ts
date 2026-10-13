@@ -38,9 +38,9 @@ export const serviceCheckouts: Record<string, ServiceCheckout> = {
   },
   "custom-ai-agent": {
     price: "$3,223.17",
-    href: "https://buy.stripe.com/fZu6oI8Qo2Yz73TdE49bO1u",
+    href: "https://buy.stripe.com/14AdRa2s0gPpcodeI89bO1A",
     billing:
-      "One-time custom build fee in USD. Final amount shown at checkout. Ongoing services and usage may be quoted separately.",
+      "$3,223.17 upfront, plus $97/month for oversight and customization support, starting 30 days after purchase. Amounts are in USD. Final amount shown at checkout.",
   },
 };
 
@@ -118,6 +118,6 @@ export const personalServices = [
       "Configuration around your processes and needs",
       "A defined implementation scope for the agent you are building",
     ],
-    note: "Review the agreed agent scope and ongoing service costs before purchasing. The custom build does not imply that all ongoing platform or usage charges are included.",
+    note: "The $97/month oversight and customization support subscription starts 30 days after purchase. Review the agreed agent scope and any separate platform or usage charges before purchasing.",
   },
 ] as const;
