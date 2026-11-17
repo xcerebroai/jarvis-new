@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { PageHero } from "@/components/layout/page-hero";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 import { pricingPlans } from "@/content/pricing";
@@ -67,13 +67,8 @@ export default function ChoosePlanPage() {
                     {plan.summary}
                   </p>
                   <div className="flex flex-col gap-3">
-                    {checkout ? (
+                    {checkout?.mode === "live" ? (
                       <>
-                        {checkout.mode === "test" ? (
-                          <p className="text-sm text-cobalt-400">
-                            Test checkout. No real payment will be taken.
-                          </p>
-                        ) : null}
                         <Link
                           href={`/checkout/${plan.id}`}
                           className={cn(
@@ -85,7 +80,7 @@ export default function ChoosePlanPage() {
                           )}
                         >
                           <span>
-                            {checkout.mode === "test" ? "Test" : "Choose"}{" "}
+                            Choose{" "}
                             {plan.name}
                           </span>
                           <ArrowRightIcon
@@ -96,12 +91,12 @@ export default function ChoosePlanPage() {
                       </>
                     ) : (
                       <>
-                        <Button disabled className="w-full">
-                          Checkout unavailable
-                        </Button>
-                        <p className="text-sm text-muted">
-                          Online checkout for this plan is not open yet.
-                        </p>
+                        <a
+                          href="mailto:justjarviscrm@gmail.com"
+                          className={buttonVariants({ variant: "secondary", size: "lg" })}
+                        >
+                          Contact us to subscribe
+                        </a>
                       </>
                     )}
                     <Link

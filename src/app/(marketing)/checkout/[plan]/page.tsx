@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 import { PageHero } from "@/components/layout/page-hero";
 import { EliteAiRoles } from "@/components/marketing/elite-ai-roles";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { ServicePurchase } from "@/components/marketing/service-purchase";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
@@ -158,7 +158,7 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
               <h2 className="font-display text-h3 text-paper">{plan.name}</h2>
             </div>
 
-            {checkout ? (
+            {checkout?.mode === "live" ? (
               <div className="flex flex-col gap-3">
                 <ServicePurchase
                   id={`checkout-${plan.id}`}
@@ -173,20 +173,12 @@ export default async function CheckoutPage({ params }: CheckoutPageProps) {
               </div>
             ) : (
               <div className="flex flex-col gap-3">
-                <Button
-                  disabled
-                  size="lg"
-                  aria-describedby="checkout-availability"
+                <a
+                  href="mailto:justjarviscrm@gmail.com"
+                  className={buttonVariants({ variant: "primary", size: "lg" })}
                 >
-                  Checkout coming soon
-                </Button>
-                <p
-                  id="checkout-availability"
-                  className="text-sm leading-relaxed text-muted"
-                >
-                  Online checkout for this plan is not open yet. Please check
-                  back soon.
-                </p>
+                  Contact us to subscribe
+                </a>
               </div>
             )}
 

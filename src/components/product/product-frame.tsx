@@ -21,6 +21,8 @@ export function ProductFrame({
   className,
   bodyClassName,
 }: ProductFrameProps) {
+  // Exclude synthetic product panels from customer-facing pages.
+  if (status === "Demo") return null;
   return (
     <div
       className={cn(

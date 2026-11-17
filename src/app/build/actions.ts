@@ -26,6 +26,6 @@ export async function submitBuildRequest(
   return {
     ok: false,
     message:
-      "Online requests are not connected yet. Your details have not been sent.",
+      "Your details have not been sent. Please contact justjarviscrm@gmail.com for assistance.",
   };
 }

@@ -30,14 +30,7 @@ export function ProsePage({
   );
 }
 
-/** Explicit marker for content that is not yet real. */
-export function PendingNotice({ children }: { children: ReactNode }) {
-  return (
-    <div className="rounded-md border border-warn/25 bg-warn/10 p-5">
-      <p className="font-mono text-eyebrow text-warn uppercase">
-        Placeholder content
-      </p>
-      <p className="mt-2 text-sm leading-relaxed text-muted">{children}</p>
-    </div>
-  );
+/** Unfinished editorial content stays outside published pages. */
+export function PendingNotice({ children: _children }: { children: ReactNode }) {
+  return null;
 }
